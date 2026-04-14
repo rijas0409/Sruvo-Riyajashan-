@@ -1,5 +1,4 @@
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
 import nodemailer from "nodemailer";
@@ -16,6 +15,20 @@ const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
+
+// Test Route to verify API is working on Vercel
+app.get("/api/test", (req, res) => {
+  res.json({ 
+    status: "ok", 
+    message: "API is reachable",
+    env: {
+      GMAIL_USER: !!process.env.GMAIL_USER,
+      GMAIL_APP_PASSWORD: !!process.env.GMAIL_APP_PASSWORD,
+      NODE_ENV: process.env.NODE_ENV,
+      VERCEL: process.env.VERCEL
+    }
+  });
+});
 
 // API Route for sending emails via Gmail/Nodemailer
 app.post("/api/send-welcome-email", async (req, res) => {
@@ -252,19 +265,20 @@ app.post("/api/send-welcome-email", async (req, res) => {
     const replyBody = encodeURIComponent(`\n\n\n--- Original Message ---\nFrom: ${name} <${email}>\nDate: ${dateTime}\nSubject: ${subject}\n\n${message}`);
 
     try {
-      // 1. Send notification to admin (thesruvo@gmail.com)
-      // We use 'envelope' to deliver it to the admin while showing the user's email in the 'To' field
-      await transporter.sendMail({
-        from: `"${name}" <${user}>`,
-        to: email, // This shows the user's email in the "To" field of the email client
-        envelope: {
-          from: user,
-          to: [user] // This ensures the email is actually delivered to the admin
-        },
-        replyTo: email,
-        subject: `[SUPPORT-REQUEST] New Contact Form: ${subject}`,
-        text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\nMessage: ${message}`,
-        html: `
+      // Send both emails in parallel to save time and avoid timeouts
+      await Promise.all([
+        // 1. Send notification to admin (thesruvo@gmail.com)
+        transporter.sendMail({
+          from: `"${name}" <${user}>`,
+          to: email, // This shows the user's email in the "To" field of the email client
+          envelope: {
+            from: user,
+            to: [user] // This ensures the email is actually delivered to the admin
+          },
+          replyTo: email,
+          subject: `[SUPPORT-REQUEST] New Contact Form: ${subject}`,
+          text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\nMessage: ${message}`,
+          html: `
 <!DOCTYPE html>
 <html>
 <head>
@@ -332,14 +346,13 @@ app.post("/api/send-welcome-email", async (req, res) => {
 </body>
 </html>
         `
-      });
-
-      // 2. Send automated response to the user
-      await transporter.sendMail({
-        from: `"Sruvo Support" <${user}>`,
-        to: email,
-        subject: "We’ve Received Your Message — Sruvo Support",
-        html: `
+        }),
+        // 2. Send automated response to the user
+        transporter.sendMail({
+          from: `"Sruvo Support" <${user}>`,
+          to: email,
+          subject: "We’ve Received Your Message — Sruvo Support",
+          html: `
 <!DOCTYPE html>
 <html>
 <head>
@@ -378,18 +391,23 @@ app.post("/api/send-welcome-email", async (req, res) => {
 </body>
 </html>
         `
-      });
+        })
+      ]);
 
-  res.status(200).json({ success: true });
-  } catch (err: any) {
-    console.error("Contact Email Error:", err);
-    res.status(500).json({ error: err.message });
-  }
+      res.status(200).json({ success: true });
+    } catch (err: any) {
+      console.error("Contact Email Error:", err);
+      res.status(500).json({ error: err.message });
+    }
 });
 
 async function startServer() {
+  // Only run this if NOT on Vercel
+  if (process.env.VERCEL) return;
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
@@ -403,11 +421,9 @@ async function startServer() {
     });
   }
 
-  if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
-    app.listen(PORT, "0.0.0.0", () => {
-      console.log(`Server running on http://localhost:${PORT}`);
-    });
-  }
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
 }
 
 startServer();
