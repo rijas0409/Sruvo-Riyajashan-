@@ -14,19 +14,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
 
-async function startServer() {
-  app.use(cors());
-  app.use(express.json());
+app.use(cors());
+app.use(express.json());
 
-  // API Route for sending emails via Gmail/Nodemailer
-  app.post("/api/send-welcome-email", async (req, res) => {
+// API Route for sending emails via Gmail/Nodemailer
+app.post("/api/send-welcome-email", async (req, res) => {
     const { email, name } = req.body;
 
     const user = process.env.GMAIL_USER;
     const pass = process.env.GMAIL_APP_PASSWORD?.replace(/\s/g, "");
 
     if (!user || !pass) {
-      console.error("Gmail credentials missing in environment");
+      console.error("Gmail credentials missing in environment. GMAIL_USER:", !!user, "GMAIL_APP_PASSWORD:", !!pass);
       return res.status(500).json({ error: "Server configuration error: Gmail credentials missing" });
     }
 
@@ -235,6 +234,7 @@ async function startServer() {
     const pass = process.env.GMAIL_APP_PASSWORD?.replace(/\s/g, "");
 
     if (!user || !pass) {
+      console.error("Gmail credentials missing for contact form. GMAIL_USER:", !!user, "GMAIL_APP_PASSWORD:", !!pass);
       return res.status(500).json({ error: "Gmail credentials missing" });
     }
 
@@ -380,13 +380,14 @@ async function startServer() {
         `
       });
 
-      res.status(200).json({ success: true });
-    } catch (err: any) {
-      console.error("Contact Email Error:", err);
-      res.status(500).json({ error: err.message });
-    }
-  });
+  res.status(200).json({ success: true });
+  } catch (err: any) {
+    console.error("Contact Email Error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
 
+async function startServer() {
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
