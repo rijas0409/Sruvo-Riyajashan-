@@ -4,29 +4,13 @@
  */
 
 import { motion } from "motion/react";
-import Navbar from "./Navbar";
-import BottomLayout from "./BottomLayout";
 
-interface PrivacyPolicyProps {
-  onNavigate: (page: 'home' | 'how-it-works' | 'features' | 'for-vets' | 'early-access' | 'contact' | 'privacy-policy') => void;
-  isMenuOpen: boolean;
-  setIsMenuOpen: (open: boolean) => void;
-}
-
-export default function PrivacyPolicy({ onNavigate, isMenuOpen, setIsMenuOpen }: PrivacyPolicyProps) {
+export default function PrivacyPolicy() {
   return (
     <div className="bg-surface font-sans text-on-surface selection:bg-primary/20 min-h-screen relative overflow-x-hidden">
       {/* Grain Overlay */}
       <div className="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>
       
-      {/* Navigation */}
-      <Navbar 
-        currentPage="privacy-policy"
-        onNavigate={onNavigate}
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-      />
-
       <main className="pt-40 pb-24 px-6 relative z-10">
         {/* Hero Section */}
         <div className="max-w-4xl mx-auto mb-16 text-center">
@@ -74,7 +58,7 @@ export default function PrivacyPolicy({ onNavigate, isMenuOpen, setIsMenuOpen }:
               </div>
               <div>
                 <p className="text-sm font-label text-on-surface-variant uppercase tracking-wider">Effective Date</p>
-                <p className="text-on-surface font-semibold">April 13, 2026</p>
+                <p className="text-on-surface font-semibold">Jan 09, 2026</p>
               </div>
             </div>
 
@@ -299,8 +283,6 @@ export default function PrivacyPolicy({ onNavigate, isMenuOpen, setIsMenuOpen }:
         </div>
       </main>
 
-      {/* Bottom Layout */}
-      <BottomLayout onNavigate={onNavigate} />
     </div>
   );
 }

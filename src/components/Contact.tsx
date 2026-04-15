@@ -5,16 +5,8 @@
 
 import { motion } from "motion/react";
 import React, { useState } from "react";
-import Navbar from "./Navbar";
-import BottomLayout from "./BottomLayout";
 
-interface ContactProps {
-  onNavigate: (page: 'home' | 'how-it-works' | 'features' | 'for-vets' | 'early-access' | 'contact' | 'privacy-policy') => void;
-  isMenuOpen: boolean;
-  setIsMenuOpen: (open: boolean) => void;
-}
-
-export default function Contact({ onNavigate, isMenuOpen, setIsMenuOpen }: ContactProps) {
+export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -65,14 +57,6 @@ export default function Contact({ onNavigate, isMenuOpen, setIsMenuOpen }: Conta
   return (
     <div className="bg-surface font-sans text-on-surface selection:bg-primary-container selection:text-on-primary-container min-h-screen relative overflow-x-hidden">
       <div className="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>
-
-      {/* Navigation */}
-      <Navbar 
-        currentPage="contact"
-        onNavigate={onNavigate}
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-      />
 
       <main className="pt-32 pb-12 atmospheric-bg px-6 overflow-hidden relative">
         {/* Decorative Background Elements */}
@@ -208,8 +192,6 @@ export default function Contact({ onNavigate, isMenuOpen, setIsMenuOpen }: Conta
         </div>
       </main>
 
-      {/* Bottom Layout */}
-      <BottomLayout onNavigate={onNavigate} />
     </div>
   );
 }

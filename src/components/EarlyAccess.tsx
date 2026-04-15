@@ -5,14 +5,11 @@
 
 import { motion } from "motion/react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
-import BottomLayout from "./BottomLayout";
 
-interface EarlyAccessProps {
-  onNavigate: (page: 'home' | 'how-it-works' | 'features' | 'for-vets' | 'early-access' | 'contact' | 'privacy-policy') => void;
-}
-
-export default function EarlyAccess({ onNavigate }: EarlyAccessProps) {
+export default function EarlyAccess() {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [role, setRole] = useState<'owner' | 'vet' | 'breeder' | null>(null);
   const [name, setName] = useState("");
@@ -134,7 +131,7 @@ export default function EarlyAccess({ onNavigate }: EarlyAccessProps) {
     <div className="font-body text-on-surface min-h-screen relative overflow-x-hidden bg-surface">
       {/* Back Button */}
       <button 
-        onClick={() => onNavigate('home')}
+        onClick={() => navigate('/')}
         className="fixed top-6 left-6 md:top-10 md:left-10 p-3 rounded-full hover:bg-white/50 transition-all duration-300 group z-50 flex items-center justify-center shadow-sm hover:shadow-md border border-white/20"
         title="Go Back"
       >
@@ -149,7 +146,7 @@ export default function EarlyAccess({ onNavigate }: EarlyAccessProps) {
       <main className="w-full pt-20 relative z-10">
         <div className="max-w-2xl mx-auto px-4">
           {/* Branding Anchor (Top Center) */}
-          <div className="flex flex-col items-center mb-12 cursor-pointer" onClick={() => onNavigate('home')}>
+          <div className="flex flex-col items-center mb-12 cursor-pointer" onClick={() => navigate('/')}>
             <div className="flex items-center gap-1.5 mb-2">
               <div className="relative h-[49px] flex items-center">
                 <img 
@@ -310,8 +307,8 @@ export default function EarlyAccess({ onNavigate }: EarlyAccessProps) {
               </div>
               <div className="bg-primary/5 p-4 md:p-6 rounded-2xl border border-primary/10">
                 <label className="block text-xs font-bold text-primary uppercase tracking-widest mb-3">Your Referral Link</label>
-                <div className="flex flex-col sm:flex-row items-center gap-2 bg-white rounded-xl p-2 sm:pl-4 border border-outline-variant/20">
-                  <span className="text-xs md:text-sm text-on-surface truncate font-mono w-full sm:w-auto text-center sm:text-left">
+                <div className="flex items-center gap-2 bg-white rounded-xl p-1.5 pl-4 border border-outline-variant/20 max-w-lg mx-auto">
+                  <span className="text-xs md:text-sm text-on-surface truncate font-mono flex-1 text-left">
                     {window.location.origin}{window.location.pathname}?ref={userReferralCode}
                   </span>
                   <button 
@@ -320,7 +317,7 @@ export default function EarlyAccess({ onNavigate }: EarlyAccessProps) {
                       navigator.clipboard.writeText(link);
                       alert('Referral link copied to clipboard!');
                     }}
-                    className="w-full sm:w-auto bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary-dim transition-colors whitespace-nowrap"
+                    className="bg-primary text-on-primary px-6 py-2 rounded-lg text-sm font-bold hover:bg-primary-dim transition-colors whitespace-nowrap shrink-0"
                   >
                     Copy
                   </button>
@@ -362,11 +359,6 @@ export default function EarlyAccess({ onNavigate }: EarlyAccessProps) {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Bottom Layout */}
-      <div className="mt-24">
-        <BottomLayout onNavigate={onNavigate} />
       </div>
     </main>
   </div>

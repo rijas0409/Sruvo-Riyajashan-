@@ -6,20 +6,17 @@
 import { motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
-interface NavbarProps {
-  currentPage: 'home' | 'how-it-works' | 'features' | 'for-vets' | 'early-access' | 'contact' | 'privacy-policy';
-  onNavigate: (page: 'home' | 'how-it-works' | 'features' | 'for-vets' | 'early-access' | 'contact' | 'privacy-policy') => void;
-  isMenuOpen: boolean;
-  setIsMenuOpen: (open: boolean) => void;
-}
-
-export default function Navbar({ currentPage, onNavigate, isMenuOpen, setIsMenuOpen }: NavbarProps) {
+export default function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const currentPage = location.pathname;
   const navItems = [
-    { name: 'Home', id: 'home' },
-    { name: 'How It Works', id: 'how-it-works' },
-    { name: 'Features', id: 'features' },
-    { name: 'For Vets', id: 'for-vets' },
+    { name: 'Home', path: '/' },
+    { name: 'How It Works', path: '/how-it-works' },
+    { name: 'Features', path: '/features' },
+    { name: 'For Vets', path: '/for-vets' },
   ] as const;
 
   return (
@@ -36,10 +33,9 @@ export default function Navbar({ currentPage, onNavigate, isMenuOpen, setIsMenuO
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-1 cursor-pointer"
-            onClick={() => onNavigate('home')}
+            className="flex items-center gap-1"
           >
-            <div className="relative h-[40px] flex items-center">
+            <Link to="/" className="relative h-[40px] flex items-center">
               <img 
                 src="https://lh3.googleusercontent.com/d/1n2SgWctS5RgMjR2Uouvq-KpsqW5_ASxx" 
                 alt="Sruvo Logo" 
@@ -47,39 +43,40 @@ export default function Navbar({ currentPage, onNavigate, isMenuOpen, setIsMenuO
                 referrerPolicy="no-referrer"
                 loading="eager"
               />
-            </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-[#FF6A88] to-[#A76DFF] bg-clip-text text-transparent font-headline tracking-tight">
+            </Link>
+            <Link to="/" className="text-xl font-bold bg-gradient-to-r from-[#FF6A88] to-[#A76DFF] bg-clip-text text-transparent font-headline tracking-tight">
               Sruvo
-            </span>
+            </Link>
           </motion.div>
         </div>
         
         <div className="hidden md:flex items-center gap-6">
           {navItems.map((item, i) => (
-            <motion.a
-              key={item.id}
+            <motion.div
+              key={item.path}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate(item.id);
-              }}
-              className={`${currentPage === item.id ? 'text-primary border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary'} font-headline font-semibold text-sm tracking-tight hover:scale-105 transition-colors duration-300`}
             >
-              {item.name}
-            </motion.a>
+              <NavLink
+                to={item.path}
+                className={({ isActive }) => 
+                  `${isActive ? 'text-primary border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary'} font-headline font-semibold text-sm tracking-tight hover:scale-105 transition-all duration-300`
+                }
+              >
+                {item.name}
+              </NavLink>
+            </motion.div>
           ))}
         </div>
 
         <div className="flex items-center gap-3">
-          <button 
-            onClick={() => onNavigate('early-access')}
+          <Link 
+            to="/early-access"
             className="primary-gradient text-on-primary px-4 py-1.5 rounded-full font-headline font-bold text-sm hover:scale-105 transition-all duration-300 shadow-md shadow-primary/20"
           >
             Early Access
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -91,18 +88,16 @@ export default function Navbar({ currentPage, onNavigate, isMenuOpen, setIsMenuO
           className="md:hidden bg-white border-t border-outline-variant/10 px-6 py-4 flex flex-col gap-4"
         >
           {navItems.map((item) => (
-            <a 
-              key={item.id} 
-              href="#" 
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate(item.id);
-                setIsMenuOpen(false);
-              }}
-              className={`font-headline font-semibold ${currentPage === item.id ? 'text-primary' : 'text-on-surface-variant'} hover:text-primary py-2`}
+            <NavLink 
+              key={item.path} 
+              to={item.path} 
+              onClick={() => setIsMenuOpen(false)}
+              className={({ isActive }) => 
+                `font-headline font-semibold ${isActive ? 'text-primary' : 'text-on-surface-variant'} hover:text-primary py-2`
+              }
             >
               {item.name}
-            </a>
+            </NavLink>
           ))}
         </motion.div>
       )}

@@ -10,32 +10,14 @@ import {
   Stethoscope, 
   Calendar, 
   FolderOpen,
-  ArrowRight,
-  Menu,
-  X
+  ArrowRight
 } from "lucide-react";
 
-import Navbar from "./Navbar";
-import BottomLayout from "./BottomLayout";
-
-interface HowItWorksProps {
-  onNavigate: (page: 'home' | 'how-it-works' | 'features' | 'for-vets' | 'early-access' | 'contact' | 'privacy-policy') => void;
-  isMenuOpen: boolean;
-  setIsMenuOpen: (open: boolean) => void;
-}
-
-export default function HowItWorks({ onNavigate, isMenuOpen, setIsMenuOpen }: HowItWorksProps) {
+export default function HowItWorks() {
   return (
     <div className="bg-surface font-sans text-on-surface selection:bg-primary/20 min-h-screen relative overflow-x-hidden">
       {/* Grain Overlay */}
       <div className="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>
-      {/* Navigation */}
-      <Navbar 
-        currentPage="how-it-works"
-        onNavigate={onNavigate}
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-      />
 
       {/* Hero Section */}
       <header className="pt-32 pb-20 px-8">
@@ -109,11 +91,11 @@ export default function HowItWorks({ onNavigate, isMenuOpen, setIsMenuOpen }: Ho
               viewport={{ once: true }}
               className="order-1 md:order-2 group"
             >
-              <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 group-hover:-translate-y-4">
+              <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 ease-out group-hover:-translate-y-4">
                 <img 
                   alt="Discovering a pet" 
                   className="rounded-[2rem] w-full h-[500px] object-cover" 
-                  src="https://picsum.photos/seed/discover-pet/800/1000"
+                  src="https://lh3.googleusercontent.com/d/1xkHbqGp5cxcUHnIPeAefI7C-RZZNNb-n"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute bottom-10 right-10 glass-card p-6 rounded-3xl border border-white/20 shadow-xl max-w-[240px]">
@@ -133,13 +115,13 @@ export default function HowItWorks({ onNavigate, isMenuOpen, setIsMenuOpen }: Ho
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="group"
+              className="order-1 md:order-2 group"
             >
-              <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 group-hover:-translate-y-4">
+              <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 ease-out group-hover:-translate-y-4">
                 <img 
                   alt="Veterinary connection" 
                   className="rounded-[2rem] w-full h-[500px] object-cover" 
-                  src="https://picsum.photos/seed/vet-connect/800/1000"
+                  src="https://lh3.googleusercontent.com/d/1oxV_xOvunQlciOIci4uxwvl_WsNyV-Ao"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute top-10 left-10 glass-card p-6 rounded-3xl border border-white/20 shadow-xl max-w-[200px]">
@@ -213,7 +195,7 @@ export default function HowItWorks({ onNavigate, isMenuOpen, setIsMenuOpen }: Ho
               viewport={{ once: true }}
               className="order-1 md:order-2 group"
             >
-              <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 group-hover:-translate-y-4">
+              <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 ease-out group-hover:-translate-y-4">
                 <img 
                   alt="Managing pet care" 
                   className="rounded-[2rem] w-full h-[500px] object-cover" 
@@ -230,13 +212,13 @@ export default function HowItWorks({ onNavigate, isMenuOpen, setIsMenuOpen }: Ho
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="group"
+              className="order-1 md:order-2 group"
             >
-              <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 group-hover:-translate-y-4">
+              <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 ease-out group-hover:-translate-y-4">
                 <img 
                   alt="Pet thriving" 
                   className="rounded-[2rem] w-full h-[500px] object-cover" 
-                  src="https://picsum.photos/seed/pet-thrive/800/1000"
+                  src="https://lh3.googleusercontent.com/d/18eSZmFSdaur1Tbck8lYOUCzoc191uGS9"
                   referrerPolicy="no-referrer"
                 />
               </div>
@@ -254,23 +236,12 @@ export default function HowItWorks({ onNavigate, isMenuOpen, setIsMenuOpen }: Ho
               <p className="text-on-surface-variant text-lg leading-relaxed mb-8">
                 Continuous support for a happy, healthy pet life. We grow with you, offering personalized insights, community support, and wellness rewards for proactive care.
               </p>
-              <div className="glass-card p-8 rounded-[2rem] border border-white/40 shadow-xl">
-                <p className="italic text-on-surface-variant mb-4">"Sruvo changed how I care for Luna. She's healthier, and I'm far less stressed about her health milestones."</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary-container"></div>
-                  <div>
-                    <p className="text-sm font-bold text-on-surface">Sarah Mitchell</p>
-                    <p className="text-xs text-on-surface-variant">Luna's Mom</p>
-                  </div>
-                </div>
-              </div>
+              {/* Testimonial card removed as per request */}
             </motion.div>
           </section>
         </div>
       </main>
 
-      {/* Bottom Layout */}
-      <BottomLayout />
     </div>
   );
 }

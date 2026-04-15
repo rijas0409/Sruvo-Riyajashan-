@@ -12,32 +12,14 @@ import {
   CheckCircle2,
   Star,
   Globe,
-  Languages,
-  Menu,
-  X
+  Languages
 } from "lucide-react";
 
-import Navbar from "./Navbar";
-import BottomLayout from "./BottomLayout";
-
-interface ForVetsProps {
-  onNavigate: (page: 'home' | 'how-it-works' | 'features' | 'for-vets' | 'early-access' | 'contact' | 'privacy-policy') => void;
-  isMenuOpen: boolean;
-  setIsMenuOpen: (open: boolean) => void;
-}
-
-export default function ForVets({ onNavigate, isMenuOpen, setIsMenuOpen }: ForVetsProps) {
+export default function ForVets() {
   return (
     <div className="bg-surface font-sans text-on-surface selection:bg-primary-container selection:text-on-primary-container min-h-screen relative overflow-x-hidden">
       {/* Grain Overlay */}
       <div className="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>
-      {/* Navigation */}
-      <Navbar 
-        currentPage="for-vets"
-        onNavigate={onNavigate}
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-      />
 
       {/* Hero Section */}
       <header className="relative pt-32 pb-24 px-8 overflow-hidden">
@@ -282,8 +264,6 @@ export default function ForVets({ onNavigate, isMenuOpen, setIsMenuOpen }: ForVe
         </div>
       </section>
 
-      {/* Bottom Layout */}
-      <BottomLayout />
     </div>
   );
 }

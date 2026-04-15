@@ -7,11 +7,7 @@ import { motion } from "motion/react";
 import { ShieldCheck } from "lucide-react";
 import Footer from "./Footer";
 
-interface BottomLayoutProps {
-  onNavigate?: (page: 'home' | 'how-it-works' | 'features' | 'for-vets' | 'early-access' | 'contact' | 'privacy-policy') => void;
-}
-
-export default function BottomLayout({ onNavigate }: BottomLayoutProps) {
+export default function BottomLayout() {
   return (
     <>
       {/* Trust Section */}
@@ -46,7 +42,7 @@ export default function BottomLayout({ onNavigate }: BottomLayoutProps) {
         </motion.div>
       </section>
 
-      <Footer onNavigate={onNavigate} />
+      <Footer />
     </>
   );
 }
