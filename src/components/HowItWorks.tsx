@@ -15,10 +15,7 @@ import {
 
 export default function HowItWorks() {
   return (
-    <div className="bg-surface font-sans text-on-surface selection:bg-primary/20 min-h-screen relative overflow-x-hidden">
-      {/* Grain Overlay */}
-      <div className="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>
-
+    <div className="selection:bg-primary/20 relative overflow-x-hidden">
       {/* Hero Section */}
       <header className="pt-32 pb-20 px-8">
         <div className="max-w-7xl mx-auto text-center">
@@ -115,7 +112,7 @@ export default function HowItWorks() {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="order-1 md:order-2 group"
+              className="md:order-1 group"
             >
               <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 ease-out group-hover:-translate-y-4">
                 <img 
@@ -140,6 +137,7 @@ export default function HowItWorks() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              className="md:order-2"
             >
               <div className="inline-flex items-center gap-3 mb-6">
                 <span className="w-12 h-12 rounded-2xl bg-secondary-container/30 flex items-center justify-center text-secondary font-bold text-xl">2</span>
@@ -199,7 +197,7 @@ export default function HowItWorks() {
                 <img 
                   alt="Managing pet care" 
                   className="rounded-[2rem] w-full h-[500px] object-cover" 
-                  src="https://picsum.photos/seed/pet-manage/800/1000"
+                  src="https://lh3.googleusercontent.com/d/1Gotf7Qld3F_vF2QSBfz8zu9yr150ZTK6"
                   referrerPolicy="no-referrer"
                 />
               </div>
@@ -212,7 +210,7 @@ export default function HowItWorks() {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="order-1 md:order-2 group"
+              className="md:order-1 group"
             >
               <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 ease-out group-hover:-translate-y-4">
                 <img 
@@ -227,6 +225,7 @@ export default function HowItWorks() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              className="md:order-2"
             >
               <div className="inline-flex items-center gap-3 mb-6">
                 <span className="w-12 h-12 rounded-2xl bg-primary-container/30 flex items-center justify-center text-primary font-bold text-xl">4</span>

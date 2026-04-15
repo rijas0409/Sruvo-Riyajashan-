@@ -17,10 +17,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-surface font-sans text-on-surface selection:bg-primary-container selection:text-on-primary-container min-h-screen relative overflow-x-hidden">
-      {/* Grain Overlay */}
-      <div className="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>
-
+    <div className="selection:bg-primary-container selection:text-on-primary-container relative overflow-x-hidden">
       {/* Hero Section */}
       <main className="pt-24 sm:pt-32 md:pt-40 pb-20 px-6 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-20">
@@ -163,9 +160,9 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            { name: "Milo", breed: "British Shorthair • 3 Years Old", tags: ["Active", "Healthy"], image: "https://drive.google.com/thumbnail?id=18IjJDvVbfF2eA1v7AR5i7d46KBmz3ZY8&sz=w1000", seed: "cat1" },
-            { name: "Cooper", breed: "Golden Retriever • 1 Year Old", tags: ["Friendly", "Vaccinated"], image: "https://drive.google.com/thumbnail?id=1D-9VcuzntZZzMTb5aSKh3HJ6cdqEKbEH&sz=w1000", seed: "dog1" },
-            { name: "Ginger", breed: "Domestic Longhair • 5 Years Old", tags: ["Calm", "Indoor"], image: "https://drive.google.com/thumbnail?id=1ynUn5MF2SrJzJkK8npAnD5PrnH0X9Zu6&sz=w1000", seed: "cat2" }
+            { name: "Milo", breed: "British Shorthair • 3 Years Old", tags: ["Active", "Healthy"], image: "https://lh3.googleusercontent.com/d/18IjJDvVbfF2eA1v7AR5i7d46KBmz3ZY8", seed: "cat1" },
+            { name: "Cooper", breed: "Golden Retriever • 1 Year Old", tags: ["Friendly", "Vaccinated"], image: "https://lh3.googleusercontent.com/d/1D-9VcuzntZZzMTb5aSKh3HJ6cdqEKbEH", seed: "dog1" },
+            { name: "Ginger", breed: "Domestic Longhair • 5 Years Old", tags: ["Calm", "Indoor"], image: "https://lh3.googleusercontent.com/d/1ynUn5MF2SrJzJkK8npAnD5PrnH0X9Zu6", seed: "cat2" }
           ].map((pet, i) => (
             <motion.div 
               key={i}
@@ -208,8 +205,8 @@ export default function Home() {
         </div>
         <div className="flex gap-8 overflow-x-auto pb-12 px-[10%] snap-x no-scrollbar">
           {[
-            { title: "Advanced Browsing Interface", image: "https://drive.google.com/thumbnail?id=1avEVztG8QhQsQNKB7iJPX84JcR0lqNbY&sz=w1200", seed: "ui1" },
-            { title: "Veterinary Dashboard", image: "https://drive.google.com/thumbnail?id=1pckWr-us9r0xOwJ6wKxmlykeiPdSUmPU&sz=w1200", seed: "ui2" }
+            { title: "Advanced Browsing Interface", image: "https://lh3.googleusercontent.com/d/1avEVztG8QhQsQNKB7iJPX84JcR0lqNbY", seed: "ui1" },
+            { title: "Veterinary Dashboard", image: "https://lh3.googleusercontent.com/d/1pckWr-us9r0xOwJ6wKxmlykeiPdSUmPU", seed: "ui2" }
           ].map((ui, i) => (
             <div key={i} className="snap-center shrink-0 w-[80vw] md:w-[600px] aspect-[16/10] glass-card rounded-[2.5rem] p-4 border border-white/40 shadow-2xl">
               <div className="bg-surface-container w-full h-full rounded-2xl overflow-hidden flex flex-col">

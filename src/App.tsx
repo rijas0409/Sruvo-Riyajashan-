@@ -15,6 +15,7 @@ import EarlyAccess from "./components/EarlyAccess";
 import Contact from "./components/Contact";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsOfService from "./components/TermsOfService";
+import BecomePartner from "./components/BecomePartner";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -30,7 +31,16 @@ function AppContent() {
   const isEarlyAccess = location.pathname === '/early-access';
 
   return (
-    <>
+    <div className="relative min-h-screen">
+      {/* Global Background Decorations */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[10%] left-[-5%] w-[500px] h-[500px] bg-tertiary/5 rounded-full blur-[100px]"></div>
+      </div>
+
+      {/* Global Grain Overlay */}
+      <div className="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>
+
       <ScrollToTop />
       {!isEarlyAccess && (
         <Navbar 
@@ -47,9 +57,10 @@ function AppContent() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/become-partner" element={<BecomePartner />} />
       </Routes>
       {!isEarlyAccess && <BottomLayout />}
-    </>
+    </div>
   );
 }
 

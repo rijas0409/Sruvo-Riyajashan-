@@ -7,10 +7,7 @@ import { motion } from "motion/react";
 
 export default function TermsOfService() {
   return (
-    <div className="bg-surface font-sans text-on-surface selection:bg-primary/20 min-h-screen relative overflow-x-hidden">
-      {/* Grain Overlay */}
-      <div className="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>
-      
+    <div className="selection:bg-primary/20 relative overflow-x-hidden">
       <main className="pt-40 pb-24 px-6 relative z-10">
         {/* Hero Section */}
         <div className="max-w-4xl mx-auto mb-16 text-center">

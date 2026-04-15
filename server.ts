@@ -401,6 +401,234 @@ app.post("/api/send-welcome-email", async (req, res) => {
     }
 });
 
+// API Route for Veterinary Partner Application Confirmation
+app.post("/api/send-partner-email", async (req, res) => {
+    const { email, name } = req.body;
+
+    const user = process.env.GMAIL_USER;
+    const pass = process.env.GMAIL_APP_PASSWORD?.replace(/\s/g, "");
+
+    if (!user || !pass) {
+      console.error("Gmail credentials missing for partner email. GMAIL_USER:", !!user, "GMAIL_APP_PASSWORD:", !!pass);
+      return res.status(500).json({ error: "Gmail credentials missing" });
+    }
+
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: { user, pass },
+    });
+
+    const mailOptions = {
+      from: `"Sruvo" <${user}>`,
+      to: email,
+      subject: "We’ve Received Your Veterinary Partner Application",
+      html: `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #f8fafc;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrapper {
+    width: 100%;
+    table-layout: fixed;
+    background-color: #f8fafc;
+    padding-bottom: 40px;
+  }
+  .main {
+    background-color: #ffffff;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    border-spacing: 0;
+    font-family: sans-serif;
+    color: #4a4a4a;
+    border-radius: 24px;
+    overflow: hidden;
+    margin-top: 40px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+  }
+  .header {
+    padding: 40px 0 20px;
+    text-align: center;
+  }
+  .logo-img {
+    width: 70px;
+    height: auto;
+    display: block;
+    margin: 0 auto 12px;
+  }
+  .brand-name {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -1px;
+    background: linear-gradient(90deg, #ff7eb3, #7a5cff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #7a5cff;
+  }
+  .content {
+    padding: 0 40px 40px;
+    text-align: center;
+  }
+  .tag {
+    display: inline-block;
+    background-color: rgba(122, 92, 255, 0.08);
+    color: #7a5cff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-size: 28px;
+    color: #1a1a1a;
+    margin: 0 0 16px;
+    line-height: 1.2;
+    font-weight: 800;
+  }
+  p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555555;
+    margin: 0 0 24px;
+  }
+  .info-card {
+    background-color: #fcfaff;
+    border: 1px solid #f0eaff;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    text-align: left;
+  }
+  .next-steps {
+    background: linear-gradient(135deg, #ffffff, #f9f8ff);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    text-align: left;
+    border: 1px solid #eee;
+  }
+  .step-title {
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+    display: block;
+    font-size: 15px;
+  }
+  .step-item {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #666;
+    display: block;
+  }
+  .btn-container {
+    padding: 20px 0;
+  }
+  .button {
+    background: linear-gradient(90deg, #ff7eb3, #7a5cff);
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 16px 40px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 16px;
+    display: inline-block;
+    box-shadow: 0 10px 25px rgba(122, 92, 255, 0.3);
+  }
+  .footer {
+    text-align: center;
+    padding: 30px 0;
+    color: #999999;
+    font-size: 12px;
+  }
+  .footer p {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+  @media screen and (max-width: 600px) {
+    .main {
+      margin-top: 20px;
+      border-radius: 0;
+    }
+    .content {
+      padding: 0 24px 40px;
+    }
+    h1 {
+      font-size: 24px;
+    }
+  }
+</style>
+</head>
+<body>
+  <center class="wrapper">
+    <table class="main" width="100%">
+      <tr>
+        <td class="header">
+          <img src="https://lh3.googleusercontent.com/d/1n2SgWctS5RgMjR2Uouvq-KpsqW5_ASxx" alt="Sruvo Logo" class="logo-img">
+          <h2 class="brand-name">Sruvo</h2>
+        </td>
+      </tr>
+      <tr>
+        <td class="content">
+          <div class="tag">Application Received</div>
+          <h1>🚀 You're One Step Closer to Joining Sruvo</h1>
+          <p>Hi <strong>${name}</strong>,</p>
+          <p>Your application to become a <strong>Veterinary Partner</strong> has been successfully submitted. We’re excited to review your profile and explore a potential partnership.</p>
+          
+          <div class="info-card">
+            <p style="margin:0; font-size: 14px;">Our team carefully evaluates each application to ensure we maintain a trusted, high-quality network for pet parents across the ecosystem.</p>
+          </div>
+
+          <div class="next-steps">
+            <span class="step-title">⏱ What happens next?</span>
+            <span class="step-item">• Our team is currently reviewing your credentials.</span>
+            <span class="step-item">• We may reach out for additional verification if needed.</span>
+            <span class="step-item">• You will receive a status update within <strong>24–48 hours</strong>.</span>
+          </div>
+
+          <div class="btn-container">
+            <a href="https://sruvo.com/how-it-works" class="button">Explore the Platform</a>
+          </div>
+
+          <p style="margin-top: 32px; font-size: 14px; color: #888;">We appreciate your interest in building a better future for pet care with us 🐾</p>
+        </td>
+      </tr>
+    </table>
+    <div class="footer">
+      <p>© 2026 Sruvo • Built with care for pets & their people</p>
+      <p>This is an automated message — replies to this email are not monitored.</p>
+    </div>
+  </center>
+</body>
+</html>
+      `,
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+      res.status(200).json({ success: true });
+    } catch (err: any) {
+      console.error("Partner Email Error:", err);
+      res.status(500).json({ error: err.message });
+    }
+});
+
 async function startServer() {
   // Only run this if NOT on Vercel
   if (process.env.VERCEL) return;

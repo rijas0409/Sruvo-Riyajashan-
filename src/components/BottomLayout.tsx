@@ -11,7 +11,7 @@ export default function BottomLayout() {
   return (
     <>
       {/* Trust Section */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
+      <section className="pt-12 pb-12 md:pb-20 px-6 max-w-7xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}

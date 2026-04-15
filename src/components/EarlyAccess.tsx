@@ -127,6 +127,39 @@ export default function EarlyAccess() {
     }
   };
 
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    const link = `${window.location.origin}${window.location.pathname}?ref=${userReferralCode}`;
+    
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(link);
+      } else {
+        // Fallback for non-secure contexts or iframes
+        const textArea = document.createElement("textarea");
+        textArea.value = link;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand('copy');
+        } catch (err) {
+          console.error('Fallback copy failed', err);
+        }
+        document.body.removeChild(textArea);
+      }
+      
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  };
+
   return (
     <div className="font-body text-on-surface min-h-screen relative overflow-x-hidden bg-surface">
       {/* Back Button */}
@@ -312,14 +345,17 @@ export default function EarlyAccess() {
                     {window.location.origin}{window.location.pathname}?ref={userReferralCode}
                   </span>
                   <button 
-                    onClick={() => {
-                      const link = `${window.location.origin}${window.location.pathname}?ref=${userReferralCode}`;
-                      navigator.clipboard.writeText(link);
-                      alert('Referral link copied to clipboard!');
-                    }}
-                    className="bg-primary text-on-primary px-6 py-2 rounded-lg text-sm font-bold hover:bg-primary-dim transition-colors whitespace-nowrap shrink-0"
+                    onClick={handleCopy}
+                    className={`${copied ? 'bg-tertiary' : 'bg-primary'} text-on-primary px-6 py-2 rounded-lg text-sm font-bold hover:opacity-90 transition-all whitespace-nowrap shrink-0 flex items-center gap-2`}
                   >
-                    Copy
+                    {copied ? (
+                      <>
+                        <span className="material-symbols-outlined text-sm">done</span>
+                        Copied
+                      </>
+                    ) : (
+                      'Copy'
+                    )}
                   </button>
                 </div>
                 <p className="text-[10px] md:text-xs text-on-surface-variant mt-4">Refer friends to skip 49 spots in the queue for each referral.</p>

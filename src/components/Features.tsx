@@ -16,9 +16,7 @@ import {
 
 export default function Features() {
   return (
-    <div className="bg-surface font-sans text-on-surface selection:bg-primary-container selection:text-on-primary-container min-h-screen relative overflow-x-hidden">
-      <div className="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>
-
+    <div className="selection:bg-primary-container selection:text-on-primary-container relative overflow-x-hidden">
       <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto">
         {/* Hero Header */}
         <header className="mb-20 text-center md:text-left">
@@ -135,7 +133,7 @@ export default function Features() {
                   <img 
                     alt="Vet Consultation" 
                     className="w-full h-full object-cover" 
-                    src="https://picsum.photos/seed/vet-consult/800/400"
+                    src="https://lh3.googleusercontent.com/d/1C97w78OunT-vUnIGHXkQdM7xx5FcV1gV"
                     referrerPolicy="no-referrer"
                   />
                 </div>

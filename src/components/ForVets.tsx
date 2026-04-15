@@ -4,6 +4,7 @@
  */
 
 import { motion } from "motion/react";
+import { useNavigate } from "react-router-dom";
 import { 
   ShieldCheck, 
   MessageSquare, 
@@ -16,11 +17,10 @@ import {
 } from "lucide-react";
 
 export default function ForVets() {
-  return (
-    <div className="bg-surface font-sans text-on-surface selection:bg-primary-container selection:text-on-primary-container min-h-screen relative overflow-x-hidden">
-      {/* Grain Overlay */}
-      <div className="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>
+  const navigate = useNavigate();
 
+  return (
+    <div className="selection:bg-primary-container selection:text-on-primary-container relative overflow-x-hidden">
       {/* Hero Section */}
       <header className="relative pt-32 pb-24 px-8 overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,_#ffc2c9_0%,_transparent_40%),_radial-gradient(circle_at_bottom_left,_#e8e7f1_0%,_transparent_40%)] opacity-40"></div>
@@ -56,11 +56,17 @@ export default function ForVets() {
               transition={{ delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              <button className="bg-gradient-to-r from-[#FF6A88] to-[#A76DFF] text-white px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-all duration-300 shadow-xl shadow-purple-500/25">
+              <button 
+                onClick={() => navigate('/become-partner')}
+                className="bg-gradient-to-r from-[#FF6A88] to-[#A76DFF] text-white px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-all duration-300 shadow-xl shadow-purple-500/25"
+              >
                 Join as a Veterinary Partner
               </button>
-              <button className="bg-surface-container-low px-8 py-4 rounded-full font-semibold text-lg hover:bg-surface-container-high transition-colors">
-                View Demo Profile
+              <button 
+                onClick={() => document.getElementById('verified-partners')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-surface-container-low px-8 py-4 rounded-full font-semibold text-lg hover:bg-surface-container-high transition-colors"
+              >
+                View Profile
               </button>
             </motion.div>
           </div>
@@ -198,11 +204,11 @@ export default function ForVets() {
                     </li>
                   </ul>
                 </div>
-                <div className="flex-1 grid grid-cols-2 gap-4">
-                  <div className="h-32 bg-surface rounded-2xl"></div>
-                  <div className="h-32 bg-primary-container/10 rounded-2xl"></div>
-                  <div className="h-32 bg-secondary-container/10 rounded-2xl"></div>
-                  <div className="h-32 bg-tertiary-container/10 rounded-2xl"></div>
+                <div className="flex-1 w-full grid grid-cols-2 gap-4">
+                  <div className="h-28 md:h-32 bg-surface rounded-2xl shadow-sm border border-white/50"></div>
+                  <div className="h-28 md:h-32 bg-primary-container/10 rounded-2xl shadow-sm border border-white/50"></div>
+                  <div className="h-28 md:h-32 bg-secondary-container/10 rounded-2xl shadow-sm border border-white/50"></div>
+                  <div className="h-28 md:h-32 bg-tertiary-container/10 rounded-2xl shadow-sm border border-white/50"></div>
                 </div>
               </div>
             </motion.div>
@@ -211,7 +217,7 @@ export default function ForVets() {
       </section>
 
       {/* Demo Vets Profiles */}
-      <section className="py-24 px-8">
+      <section id="verified-partners" className="py-24 px-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-end mb-16">
             <div className="space-y-4">

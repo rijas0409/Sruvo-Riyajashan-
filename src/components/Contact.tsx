@@ -55,17 +55,11 @@ export default function Contact() {
   };
 
   return (
-    <div className="bg-surface font-sans text-on-surface selection:bg-primary-container selection:text-on-primary-container min-h-screen relative overflow-x-hidden">
-      <div className="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>
-
-      <main className="pt-32 pb-12 atmospheric-bg px-6 overflow-hidden relative">
-        {/* Decorative Background Elements */}
-        <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-tertiary/5 rounded-full blur-[100px]"></div>
-        
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-16 relative z-10">
+    <div className="font-sans selection:bg-primary-container selection:text-on-primary-container relative overflow-x-hidden">
+      <main className="pt-24 pb-12 px-6 overflow-hidden relative">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 relative z-10">
           {/* Hero Content */}
-          <div className="md:col-span-5 flex flex-col justify-center order-1">
+          <div className="md:col-span-5 flex flex-col justify-start pt-8 order-1">
             <motion.span 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
