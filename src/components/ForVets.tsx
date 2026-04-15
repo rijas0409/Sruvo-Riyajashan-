@@ -74,30 +74,37 @@ export default function ForVets() {
             initial={{ opacity: 0, scale: 0.9, rotate: 3 }}
             animate={{ opacity: 1, scale: 1, rotate: 3 }}
             whileHover={{ rotate: 0 }}
-            transition={{ duration: 0.5 }}
             className="flex-1 relative"
           >
-            <div className="relative w-full aspect-square rounded-[2rem] overflow-hidden shadow-2xl">
-              <img 
-                className="w-full h-full object-cover" 
-                src="https://picsum.photos/seed/vet-hero/800/800" 
-                alt="Professional veterinarian"
+            <motion.div 
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.2 }}
+              className="relative w-full aspect-[2/3] md:aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl cursor-pointer"
+            >
+              <motion.img 
+                whileTap={{ scale: 1.1 }}
+                transition={{ duration: 0.2 }}
+                className="w-full h-full object-cover object-top" 
+                src="https://drive.google.com/thumbnail?id=17QPHm2Wi3tuoLFqre9eTtMjqQYl0UMyf&sz=w1000" 
+                alt="Dr. Rijas Pabla"
                 referrerPolicy="no-referrer"
+                loading="eager"
+                fetchPriority="high"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-              <div className="absolute bottom-8 left-8 right-8 p-6 bg-white/80 backdrop-blur-xl rounded-xl shadow-xl">
-                <div className="flex items-center justify-between">
+              <div className="absolute bottom-3 left-3 right-3 p-3 md:bottom-8 md:left-8 md:right-8 md:p-6 bg-white/80 backdrop-blur-xl rounded-xl shadow-xl">
+                <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-headline font-bold text-lg">Dr. Elena Rodriguez</h3>
-                    <p className="text-sm text-on-surface-variant">Chief Medical Officer, Sruvo Network</p>
+                    <h3 className="font-headline font-bold text-sm md:text-lg">Dr. Rijas Pabla</h3>
+                    <p className="text-[10px] md:text-sm text-on-surface-variant">Senior Veterinary Expert</p>
                   </div>
-                  <div className="px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full text-xs font-bold flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3 fill-current" />
+                  <div className="px-2 md:px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full text-[9px] md:text-xs font-bold flex items-center gap-1 shrink-0">
+                    <span className="material-symbols-outlined text-[9px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                     VERIFIED
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </header>
@@ -228,31 +235,56 @@ export default function ForVets() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { name: "Dr. Julian Vance", role: "Orthopedic Surgeon", rating: "5.0", seed: "vet1" },
-              { name: "Dr. Sarah Chen", role: "Exotic Animal Expert", rating: "4.9", seed: "vet2" },
-              { name: "Dr. Marcus Thorne", role: "Feline Specialist", rating: "4.8", seed: "vet3" },
-              { name: "Dr. Aisha Khan", role: "Senior Vet / Clinic Director", rating: "5.0", seed: "vet4" }
+              { 
+                name: "Dr. Arjun Narang", 
+                role: "Orthopedic Surgeon", 
+                rating: "5.0", 
+                image: "https://drive.google.com/thumbnail?id=18pGbY7iGs9Vrn_F8DRQLZw0a3EjETrBw&sz=w1000" 
+              },
+              { 
+                name: "Dr. Jass Saini", 
+                role: "Exotic Animal Expert", 
+                rating: "4.9", 
+                image: "https://drive.google.com/thumbnail?id=15FYsFWExMlMNsx9Va0pUE-eCvL7mlemq&sz=w1000" 
+              },
+              { 
+                name: "Dr. Priya Iyer", 
+                role: "Feline Specialist", 
+                rating: "4.8", 
+                image: "https://drive.google.com/thumbnail?id=1CKR7jEfOzhwlBDBahAyxYPKk3y4vL-4b&sz=w1000" 
+              },
+              { 
+                name: "Dr. Ayesha Khan", 
+                role: "Senior Vet / Clinic Director", 
+                rating: "5.0", 
+                image: "https://drive.google.com/thumbnail?id=1nb7BRTiHvr9rkSg3AVUtukORkpsQVG5t&sz=w1000" 
+              }
             ].map((vet, i) => (
               <motion.div 
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
-                transition={{ delay: i * 0.1 }}
-                className="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-500"
+                className="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
               >
-                <div className="relative h-64 overflow-hidden">
-                  <img 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
-                    src={`https://picsum.photos/seed/${vet.seed}/400/600`} 
+                <motion.div 
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.2 }}
+                  className="relative h-64 overflow-hidden cursor-pointer"
+                >
+                  <motion.img 
+                    whileTap={{ scale: 1.1 }}
+                    transition={{ duration: 0.2 }}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    src={vet.image} 
                     alt={vet.name}
                     referrerPolicy="no-referrer"
                   />
                   <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
-                    <CheckCircle2 className="text-primary w-3 h-3 fill-current" />
+                    <span className="material-symbols-outlined text-[9px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                     <span className="text-[10px] font-black uppercase tracking-tighter text-on-surface">Verified</span>
                   </div>
-                </div>
+                </motion.div>
                 <div className="p-6">
                   <h4 className="font-headline font-bold text-xl">{vet.name}</h4>
                   <p className="text-on-surface-variant text-sm mb-4 italic">{vet.role}</p>

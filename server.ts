@@ -474,9 +474,6 @@ app.post("/api/send-partner-email", async (req, res) => {
     font-weight: 800;
     margin: 0;
     letter-spacing: -1px;
-    background: linear-gradient(90deg, #ff7eb3, #7a5cff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     color: #7a5cff;
   }
   .content {
@@ -485,7 +482,7 @@ app.post("/api/send-partner-email", async (req, res) => {
   }
   .tag {
     display: inline-block;
-    background-color: rgba(122, 92, 255, 0.08);
+    background-color: #f0eaff;
     color: #7a5cff;
     font-size: 11px;
     font-weight: 700;
@@ -541,6 +538,7 @@ app.post("/api/send-partner-email", async (req, res) => {
     padding: 20px 0;
   }
   .button {
+    background-color: #7a5cff;
     background: linear-gradient(90deg, #ff7eb3, #7a5cff);
     color: #ffffff !important;
     text-decoration: none;

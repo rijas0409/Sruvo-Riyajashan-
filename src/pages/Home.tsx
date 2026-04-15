@@ -92,6 +92,8 @@ export default function Home() {
                 alt="Adorable golden retriever"
                 src="https://drive.google.com/thumbnail?id=1VE2n4FErG5k9BNlhSLQwLDHzP9-Csv2W&sz=w1000"
                 referrerPolicy="no-referrer"
+                loading="eager"
+                fetchPriority="high"
               />
               <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 sm:right-8 glass-card p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-white/50 shadow-lg translate-y-2 sm:translate-y-4">
                 <div className="flex items-center justify-between">
