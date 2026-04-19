@@ -67,9 +67,6 @@ export default function PressKit() {
                 Jashanpreet leads product vision, designs, business strategy and overall execution at Sruvo. With a strong focus on building scalable digital experiences, he is driving the creation of a unified pet care ecosystem that solves real-world challenges for pet parents.
               </p>
               <div className="flex gap-4">
-                <button className="bg-surface-container-highest px-6 py-3 rounded-full hover:bg-surface-container-high transition-colors font-semibold flex items-center gap-2">
-                  <span className="material-symbols-outlined text-sm">description</span> Full Bio
-                </button>
                 <a 
                   href="https://in.linkedin.com/in/jashanpreet-singh-pabla" 
                   target="_blank" 
@@ -112,9 +109,6 @@ export default function PressKit() {
                 Saurabh focuses on operations and partnerships. He is responsible for building the service network, onboarding partners, and ensuring seamless execution across the platform.
               </p>
               <div className="flex gap-4">
-                <button className="bg-surface-container-highest px-6 py-3 rounded-full hover:bg-surface-container-high transition-colors font-semibold flex items-center gap-2">
-                  <span className="material-symbols-outlined text-sm">description</span> Full Bio
-                </button>
                 <a 
                   href="https://www.linkedin.com/in/saurabh-tiwari-52aa84313?utm_source=share_via&utm_content=profile&utm_medium=member_android" 
                   target="_blank" 

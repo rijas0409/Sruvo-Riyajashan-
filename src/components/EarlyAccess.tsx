@@ -17,11 +17,19 @@ export default function EarlyAccess() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [city, setCity] = useState("");
+  const [honeypot, setHoneypot] = useState(""); // Honeypot field for bot protection
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [queuePosition, setQueuePosition] = useState<number | null>(null);
   const [userReferralCode, setUserReferralCode] = useState<string>("");
   const [referredBy, setReferredBy] = useState<string | null>(null);
+
+  // Common disposable email domains to block fake addresses
+  const DISPOSABLE_DOMAINS = [
+    'mailinator.com', 'tempmail.com', 'guerrillamail.com', '10minutemail.com', 
+    'trashmail.com', 'yopmail.com', 'sharklasers.com', 'teleworm.us',
+    'armyspy.com', 'dayrep.com', 'einrot.com', 'fleckens.hu', 'rhyta.com'
+  ];
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -32,7 +40,11 @@ export default function EarlyAccess() {
   }, []);
 
   const isEmailValid = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const basicRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!basicRegex) return false;
+
+    const domain = email.split('@')[1]?.toLowerCase();
+    return !DISPOSABLE_DOMAINS.includes(domain);
   };
 
   const isPhoneValid = (num: string) => {
@@ -55,6 +67,14 @@ export default function EarlyAccess() {
 
   const handleSubmit = async () => {
     if (!isFormValid) return;
+
+    // Check honeypot (bots will fill this hidden field)
+    if (honeypot.length > 0) {
+      console.warn("Bot submission detected.");
+      setIsLoading(true);
+      setTimeout(() => setIsLoading(false), 2000); // Simulate processing
+      return;
+    }
 
     setIsLoading(true);
     setError(null);
@@ -289,6 +309,18 @@ export default function EarlyAccess() {
                       required
                     />
                   </div>
+
+                  {/* Honeypot field (hidden from humans, caught bots) */}
+                  <div className="hidden" aria-hidden="true">
+                    <input 
+                      type="text" 
+                      tabIndex={-1} 
+                      autoComplete="off" 
+                      value={honeypot}
+                      onChange={(e) => setHoneypot(e.target.value)} 
+                    />
+                  </div>
+
                   <div className="relative">
                     <label className="block text-xs font-bold text-primary uppercase tracking-widest mb-2 px-1">Email</label>
                     <input 
@@ -304,11 +336,14 @@ export default function EarlyAccess() {
                     <label className="block text-xs font-bold text-primary uppercase tracking-widest mb-2 px-1">Phone Number</label>
                     <input 
                       value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                        setPhone(val);
+                      }}
                       className="w-full bg-surface-container-low border-none rounded-xl px-5 py-4 text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all text-lg" 
                       placeholder="e.g. 9876543210" 
                       type="tel"
-                      maxLength={15}
+                      maxLength={10}
                       required
                     />
                   </div>
