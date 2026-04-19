@@ -129,7 +129,7 @@ export default function Features() {
                     Instant video access to top-tier specialists. On-demand guidance for urgent queries or scheduled wellness checks.
                   </p>
                 </div>
-                <div className="h-48 w-full mt-4 rounded-xl overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+                <div className="h-48 w-full mt-4 rounded-xl overflow-hidden group-hover:shadow-lg transition-all duration-700 portrait-container">
                   <img 
                     alt="Vet Consultation" 
                     className="w-full h-full object-cover" 
@@ -204,14 +204,14 @@ export default function Features() {
                     </li>
                   </ul>
                 </div>
-                <div className="md:w-1/2 w-full aspect-video rounded-3xl overflow-hidden relative shadow-2xl">
+                <div className="md:w-1/2 w-full aspect-video rounded-3xl overflow-hidden relative shadow-2xl portrait-container">
                   <img 
                     alt="Pet Profile Interface" 
                     className="w-full h-full object-cover" 
                     src="https://lh3.googleusercontent.com/d/18YlDZpE-U6ILpidQNZPOHAb0V8tJ60zT"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent pointer-events-none"></div>
                 </div>
               </div>
             </div>

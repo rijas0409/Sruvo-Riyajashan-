@@ -16,6 +16,7 @@ import Contact from "./components/Contact";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsOfService from "./components/TermsOfService";
 import BecomePartner from "./components/BecomePartner";
+import PressKit from "./pages/PressKit";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -29,6 +30,7 @@ function AppContent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const isEarlyAccess = location.pathname === '/early-access';
+  const isPressKit = location.pathname === '/press-kit';
 
   return (
     <div className="relative min-h-screen">
@@ -58,6 +60,7 @@ function AppContent() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/become-partner" element={<BecomePartner />} />
+        <Route path="/press-kit" element={<PressKit />} />
       </Routes>
       {!isEarlyAccess && <BottomLayout />}
     </div>

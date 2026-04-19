@@ -76,14 +76,8 @@ export default function ForVets() {
             whileHover={{ rotate: 0 }}
             className="flex-1 relative"
           >
-            <motion.div 
-              whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.2 }}
-              className="relative w-full aspect-[2/3] md:aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl cursor-pointer"
-            >
-              <motion.img 
-                whileTap={{ scale: 1.1 }}
-                transition={{ duration: 0.2 }}
+            <div className="relative w-full aspect-[2/3] md:aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl portrait-container">
+              <img 
                 className="w-full h-full object-cover object-top" 
                 src="https://drive.google.com/thumbnail?id=17QPHm2Wi3tuoLFqre9eTtMjqQYl0UMyf&sz=w1000" 
                 alt="Dr. Rijas Pabla"
@@ -98,13 +92,13 @@ export default function ForVets() {
                     <h3 className="font-headline font-bold text-sm md:text-lg">Dr. Rijas Pabla</h3>
                     <p className="text-[10px] md:text-sm text-on-surface-variant">Senior Veterinary Expert</p>
                   </div>
-                  <div className="px-2 md:px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full text-[9px] md:text-xs font-bold flex items-center gap-1 shrink-0">
-                    <span className="material-symbols-outlined text-[9px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                  <div className="px-1.5 md:px-3 py-0.5 md:py-1 bg-tertiary-container text-on-tertiary-container rounded-full text-[8px] md:text-xs font-bold flex items-center gap-1 shrink-0">
+                    <span className="material-symbols-outlined text-[10px] md:text-[12px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                     VERIFIED
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </header>
@@ -231,7 +225,6 @@ export default function ForVets() {
               <h2 className="text-sm font-bold uppercase tracking-widest text-primary">The Sruvo Network</h2>
               <h3 className="text-4xl md:text-5xl font-headline font-extrabold">Meet our verified partners.</h3>
             </div>
-            <button className="hidden md:block text-primary font-bold hover:underline">Explore all partners →</button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
@@ -265,26 +258,22 @@ export default function ForVets() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
-                className="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+                className="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 portrait-container"
               >
-                <motion.div 
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ duration: 0.2 }}
+                <div 
                   className="relative h-64 overflow-hidden cursor-pointer"
                 >
-                  <motion.img 
-                    whileTap={{ scale: 1.1 }}
-                    transition={{ duration: 0.2 }}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                  <img 
+                    className="w-full h-full object-cover" 
                     src={vet.image} 
                     alt={vet.name}
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
-                    <span className="material-symbols-outlined text-[9px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                    <span className="text-[10px] font-black uppercase tracking-tighter text-on-surface">Verified</span>
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
+                    <span className="material-symbols-outlined text-[10px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                    <span className="text-[8px] font-black uppercase tracking-tighter text-on-surface">Verified</span>
                   </div>
-                </motion.div>
+                </div>
                 <div className="p-6">
                   <h4 className="font-headline font-bold text-xl">{vet.name}</h4>
                   <p className="text-on-surface-variant text-sm mb-4 italic">{vet.role}</p>
@@ -294,7 +283,6 @@ export default function ForVets() {
                     </div>
                     <span className="text-xs font-bold text-on-surface">{vet.rating}</span>
                   </div>
-                  <button className="w-full py-3 rounded-xl border border-outline-variant font-bold hover:bg-primary-container/10 hover:border-primary transition-all">View Profile</button>
                 </div>
               </motion.div>
             ))}

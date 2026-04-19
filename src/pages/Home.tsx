@@ -82,11 +82,11 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.9, x: 20 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex-1 relative w-full max-w-xl md:max-w-none"
+            className="flex-1 relative w-full max-w-xl md:max-w-none portrait-container"
           >
             <div className="absolute -top-10 -right-10 w-48 h-48 sm:w-64 sm:h-64 bg-primary/10 blur-[80px] sm:blur-[100px] rounded-full"></div>
             <div className="absolute -bottom-10 -left-10 w-48 h-48 sm:w-64 sm:h-64 bg-[#FF6A88]/10 blur-[80px] sm:blur-[100px] rounded-full"></div>
-            <div className="relative z-10 glass-card p-3 sm:p-4 rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl border border-white/40">
+            <div className="relative z-10 glass-card p-3 sm:p-4 rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl border border-white/40 overflow-hidden">
               <img 
                 className="rounded-[1.5rem] sm:rounded-[2rem] w-full h-[350px] sm:h-[450px] lg:h-[550px] object-cover" 
                 alt="Adorable golden retriever"
@@ -101,8 +101,8 @@ export default function Home() {
                     <h3 className="text-lg sm:text-xl font-bold font-headline">Luna</h3>
                     <p className="text-on-surface-variant text-xs sm:text-sm">Verified Goldie • 2 years</p>
                   </div>
-                  <div className="flex items-center gap-0.5 sm:gap-1 bg-tertiary-container px-1.5 sm:px-3 py-1 rounded-full text-on-tertiary-container text-[9px] sm:text-xs font-bold">
-                    <span className="material-symbols-outlined text-[12px] sm:text-[16px] -ml-0.5 sm:ml-0" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                  <div className="flex items-center gap-0.5 sm:gap-1 bg-tertiary-container px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-on-tertiary-container text-[8px] sm:text-xs font-bold">
+                    <span className="material-symbols-outlined text-[10px] sm:text-[16px] -ml-0.5 sm:ml-0" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                     VERIFIED
                   </div>
                 </div>
@@ -156,9 +156,6 @@ export default function Home() {
             <h2 className="text-4xl font-extrabold font-headline tracking-tight mb-4">The Sruvo Family</h2>
             <p className="text-on-surface-variant">Meet some of the beautiful souls currently on our platform.</p>
           </div>
-          <button className="text-primary font-bold flex items-center gap-2 hover:gap-4 transition-all">
-            View All Listings <ArrowRight className="w-5 h-5" />
-          </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
@@ -169,7 +166,7 @@ export default function Home() {
             <motion.div 
               key={i}
               whileHover={{ y: -5 }}
-              className="glass-card relative z-10 rounded-[2.5rem] overflow-hidden border border-white/50 shadow-xl group cursor-pointer will-change-transform"
+              className="glass-card relative z-10 rounded-[2.5rem] overflow-hidden border border-white/50 shadow-xl group cursor-pointer will-change-transform portrait-container"
             >
               <div className="relative overflow-hidden h-80">
                 <img 
@@ -217,7 +214,7 @@ export default function Home() {
                   <div className="w-3 h-3 rounded-full bg-yellow-400/40"></div>
                   <div className="w-3 h-3 rounded-full bg-green-400/40"></div>
                 </div>
-                <div className="flex-1 flex items-center justify-center bg-white/20">
+                <div className="flex-1 flex items-center justify-center bg-white/20 portrait-container overflow-hidden">
                   <img 
                     className="w-full h-full object-cover opacity-80" 
                     alt={ui.title}

@@ -7,6 +7,7 @@ import { motion } from "motion/react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import Footer from "./Footer";
 
 export default function EarlyAccess() {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ export default function EarlyAccess() {
   const [role, setRole] = useState<'owner' | 'vet' | 'breeder' | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [city, setCity] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [queuePosition, setQueuePosition] = useState<number | null>(null);
@@ -32,7 +35,17 @@ export default function EarlyAccess() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const isFormValid = name.trim().length > 0 && isEmailValid(email) && role !== null;
+  const isPhoneValid = (num: string) => {
+    // Extract only digits and check if there are exactly 10
+    const digits = num.replace(/\D/g, '');
+    return digits.length === 10;
+  };
+
+  const isFormValid = name.trim().length > 0 && 
+                      isEmailValid(email) && 
+                      role !== null && 
+                      isPhoneValid(phone) && 
+                      city.trim().length > 0;
 
   const generateReferralCode = (userName: string) => {
     const cleanName = userName.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 10);
@@ -72,6 +85,8 @@ export default function EarlyAccess() {
           { 
             full_name: name, 
             email: email, 
+            phone: phone,
+            city: city,
             role: role,
             referral_code: myReferralCode,
             referred_by: referredBy,
@@ -226,38 +241,38 @@ export default function EarlyAccess() {
                 </div>
 
                 {/* Role Selection Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-2 md:gap-4">
                   <button 
                     onClick={() => setRole('owner')}
-                    className={`group relative flex flex-col items-center p-6 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/5 text-center focus:outline-none focus:ring-2 focus:ring-primary/20 ${role === 'owner' ? 'bg-white shadow-xl ring-2 ring-primary/20' : 'bg-surface-container-low hover:bg-surface-container-lowest'}`}
+                    className={`group relative flex flex-col items-center p-3 md:p-6 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/5 text-center focus:outline-none focus:ring-2 focus:ring-primary/20 ${role === 'owner' ? 'bg-white shadow-xl ring-2 ring-primary/20' : 'bg-surface-container-low hover:bg-surface-container-lowest'}`}
                   >
-                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined text-3xl text-primary">pets</span>
+                    <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-primary/10 flex items-center justify-center mb-2 md:mb-4 group-hover:scale-110 transition-transform">
+                      <span className="material-symbols-outlined text-xl md:text-3xl text-primary">pets</span>
                     </div>
-                    <span className="font-headline font-semibold text-on-surface">Pet Owner</span>
-                    <span className="text-xs text-on-surface-variant mt-1">Manage, care, and shop everything your pet needs</span>
+                    <span className="font-headline font-semibold text-on-surface text-[10px] md:text-base leading-tight">Pet Owner</span>
+                    <span className="text-[8px] md:text-xs text-on-surface-variant mt-1">Manage, care, and shop everything your pet needs</span>
                   </button>
 
                   <button 
                     onClick={() => setRole('vet')}
-                    className={`group relative flex flex-col items-center p-6 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/5 text-center focus:outline-none focus:ring-2 focus:ring-primary/20 ${role === 'vet' ? 'bg-white shadow-xl ring-2 ring-primary/20' : 'bg-surface-container-low hover:bg-surface-container-lowest'}`}
+                    className={`group relative flex flex-col items-center p-3 md:p-6 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/5 text-center focus:outline-none focus:ring-2 focus:ring-primary/20 ${role === 'vet' ? 'bg-white shadow-xl ring-2 ring-primary/20' : 'bg-surface-container-low hover:bg-surface-container-lowest'}`}
                   >
-                    <div className="w-16 h-16 rounded-full bg-tertiary-container/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined text-3xl text-tertiary">medical_services</span>
+                    <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-tertiary-container/20 flex items-center justify-center mb-2 md:mb-4 group-hover:scale-110 transition-transform">
+                      <span className="material-symbols-outlined text-xl md:text-3xl text-tertiary">medical_services</span>
                     </div>
-                    <span className="font-headline font-semibold text-on-surface">Vet</span>
-                    <span className="text-xs text-on-surface-variant mt-1">Connect with pet owners, manage consultations and grow your practice</span>
+                    <span className="font-headline font-semibold text-on-surface text-[10px] md:text-base leading-tight">Vet</span>
+                    <span className="text-[8px] md:text-xs text-on-surface-variant mt-1">Connect with pet owners, manage consultations and grow your practice</span>
                   </button>
 
                   <button 
                     onClick={() => setRole('breeder')}
-                    className={`group relative flex flex-col items-center p-6 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/5 text-center focus:outline-none focus:ring-2 focus:ring-primary/20 ${role === 'breeder' ? 'bg-white shadow-xl ring-2 ring-primary/20' : 'bg-surface-container-low hover:bg-surface-container-lowest'}`}
+                    className={`group relative flex flex-col items-center p-3 md:p-6 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/5 text-center focus:outline-none focus:ring-2 focus:ring-primary/20 ${role === 'breeder' ? 'bg-white shadow-xl ring-2 ring-primary/20' : 'bg-surface-container-low hover:bg-surface-container-lowest'}`}
                   >
-                    <div className="w-16 h-16 rounded-full bg-secondary-container/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined text-3xl text-secondary">home_health</span>
+                    <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-secondary-container/20 flex items-center justify-center mb-2 md:mb-4 group-hover:scale-110 transition-transform">
+                      <span className="material-symbols-outlined text-xl md:text-3xl text-secondary">home_health</span>
                     </div>
-                    <span className="font-headline font-semibold text-on-surface">Breeder</span>
-                    <span className="text-xs text-on-surface-variant mt-1">Connect with genuine pet parents, and showcase your pets</span>
+                    <span className="font-headline font-semibold text-on-surface text-[10px] md:text-base leading-tight">Breeder</span>
+                    <span className="text-[8px] md:text-xs text-on-surface-variant mt-1">Connect with genuine pet parents, and showcase your pets</span>
                   </button>
                 </div>
 
@@ -282,6 +297,29 @@ export default function EarlyAccess() {
                       className="w-full bg-surface-container-low border-none rounded-xl px-5 py-4 text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all text-lg" 
                       placeholder="rijas@sruvo.com" 
                       type="email"
+                      required
+                    />
+                  </div>
+                  <div className="relative">
+                    <label className="block text-xs font-bold text-primary uppercase tracking-widest mb-2 px-1">Phone Number</label>
+                    <input 
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full bg-surface-container-low border-none rounded-xl px-5 py-4 text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all text-lg" 
+                      placeholder="e.g. 9876543210" 
+                      type="tel"
+                      maxLength={15}
+                      required
+                    />
+                  </div>
+                  <div className="relative">
+                    <label className="block text-xs font-bold text-primary uppercase tracking-widest mb-2 px-1">City</label>
+                    <input 
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      className="w-full bg-surface-container-low border-none rounded-xl px-5 py-4 text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all text-lg" 
+                      placeholder="e.g. Gurgaon" 
+                      type="text"
                       required
                     />
                   </div>
@@ -328,14 +366,14 @@ export default function EarlyAccess() {
                 <h2 className="text-4xl font-headline font-extrabold text-on-surface tracking-tighter">You're in! 🚀</h2>
                 <p className="text-on-surface-variant max-w-sm mx-auto">Welcome to the future of ethical pet care. We've reserved your spot in line.</p>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                <div className="bg-surface-container-low p-4 md:p-6 rounded-2xl">
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                <div className="bg-surface-container-low p-4 md:p-6 rounded-2xl text-center">
                   <span className="block text-[10px] md:text-xs font-label text-outline uppercase tracking-widest mb-1">Queue Position</span>
-                  <span className="text-2xl md:text-3xl font-headline font-black text-primary">#{queuePosition?.toLocaleString() || '49'}</span>
+                  <span className="text-xl md:text-3xl font-headline font-black text-primary">#{queuePosition?.toLocaleString() || '49'}</span>
                 </div>
-                <div className="bg-surface-container-low p-4 md:p-6 rounded-2xl">
+                <div className="bg-surface-container-low p-4 md:p-6 rounded-2xl text-center">
                   <span className="block text-[10px] md:text-xs font-label text-outline uppercase tracking-widest mb-1">Status</span>
-                  <span className="text-2xl md:text-3xl font-headline font-black text-tertiary">Verified</span>
+                  <span className="text-xl md:text-3xl font-headline font-black text-tertiary">Verified</span>
                 </div>
               </div>
               <div className="bg-primary/5 p-4 md:p-6 rounded-2xl border border-primary/10">
@@ -397,6 +435,7 @@ export default function EarlyAccess() {
         </div>
       </div>
     </main>
+    <Footer />
   </div>
 );
 }

@@ -86,7 +86,7 @@ export default function HowItWorks() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="order-1 md:order-2 group"
+              className="order-1 md:order-2 group portrait-container"
             >
               <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 ease-out group-hover:-translate-y-4">
                 <img 
@@ -112,7 +112,7 @@ export default function HowItWorks() {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="md:order-1 group"
+              className="md:order-1 group portrait-container"
             >
               <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 ease-out group-hover:-translate-y-4">
                 <img 
@@ -191,7 +191,7 @@ export default function HowItWorks() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="order-1 md:order-2 group"
+              className="order-1 md:order-2 group portrait-container"
             >
               <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 ease-out group-hover:-translate-y-4">
                 <img 
@@ -210,7 +210,7 @@ export default function HowItWorks() {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="md:order-1 group"
+              className="md:order-1 group portrait-container"
             >
               <div className="relative rounded-[2.5rem] overflow-hidden glass-card p-4 shadow-2xl transition-transform duration-500 ease-out group-hover:-translate-y-4">
                 <img 

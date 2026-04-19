@@ -20,7 +20,7 @@ export default function Footer() {
             { name: 'Privacy Policy', path: '/privacy-policy' },
             { name: 'Terms of Service', path: '/terms-of-service' },
             { name: 'Contact', path: '/contact' },
-            { name: 'Press Kit', path: '#' }
+            { name: 'Press Kit', path: '/press-kit' }
           ].map(link => (
             <Link 
               key={link.name} 
