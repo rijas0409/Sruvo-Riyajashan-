@@ -96,7 +96,7 @@ export default function PressKit() {
               <img 
                 alt="Saurabh Tiwari" 
                 className="w-full h-full object-cover" 
-                src="https://drive.google.com/thumbnail?id=1l1Yi-3lYKzdc-YQkHWgMLGGx_gDZZCLU&sz=w1000" 
+                src="https://drive.google.com/thumbnail?id=1ITuTeBKPmBB8_qWepyTQAYd0HJMOPuK5&sz=w1000" 
                 referrerPolicy="no-referrer"
               />
             </motion.div>
@@ -132,7 +132,7 @@ export default function PressKit() {
         </section>
 
         {/* Loved by the Sanctuary Testimonial Section */}
-        <section className="py-32 relative overflow-hidden bg-surface-container-low/30">
+        <section className="pt-32 pb-20 relative overflow-hidden bg-surface-container-low/30">
           <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -z-10"></div>
           <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-secondary/10 rounded-full blur-[100px] -z-10"></div>
           <div className="max-w-7xl mx-auto px-8">
@@ -151,7 +151,7 @@ export default function PressKit() {
                     "Love the idea and concepts and nowadays finding the right pet is a difficult task which you are making much easier."
                   </p>
                   <div>
-                    <h4 className="font-headline font-bold text-lg">Sarah Jenkins</h4>
+                    <h4 className="font-headline font-bold text-lg">Raj Jassar</h4>
                     <p className="text-primary text-sm font-semibold uppercase tracking-widest">Verified Pet Owner</p>
                   </div>
                 </div>
@@ -166,7 +166,7 @@ export default function PressKit() {
                     "Getting a vet assistant for pets in the virtual world is next impossible and you are bringing that kind of concept that really needs to be appreciated."
                   </p>
                   <div>
-                    <h4 className="font-headline font-bold text-lg">Dr. Aris Varma</h4>
+                    <h4 className="font-headline font-bold text-lg">Dr. Rishu Verma</h4>
                     <p className="text-primary text-sm font-semibold uppercase tracking-widest">Lead Veterinarian</p>
                   </div>
                 </div>
@@ -181,7 +181,7 @@ export default function PressKit() {
                     "It's the first time that anyone is integrating AI to make a platform easy to use and get information about the product, it's really valuable to customers like us who have not much idea of pets related products."
                   </p>
                   <div>
-                    <h4 className="font-headline font-bold text-lg">Mark Henderson</h4>
+                    <h4 className="font-headline font-bold text-lg">Karanveer Singh Gill</h4>
                     <p className="text-primary text-sm font-semibold uppercase tracking-widest">Certified Breeder</p>
                   </div>
                 </div>
@@ -196,7 +196,7 @@ export default function PressKit() {
                     "I love the concepts of verified breeders, because there are already lots of websites who are redirecting to whatsapp to purchase but no proof of verification and transparency and with this concept chances of fraud will be reduced and build trust in this platform."
                   </p>
                   <div>
-                    <h4 className="font-headline font-bold text-lg">Elena Russo</h4>
+                    <h4 className="font-headline font-bold text-lg">Arsh Kapoor</h4>
                     <p className="text-primary text-sm font-semibold uppercase tracking-widest">Welfare Consultant</p>
                   </div>
                 </div>
@@ -205,57 +205,23 @@ export default function PressKit() {
           </div>
         </section>
 
-        {/* Press Releases */}
-        <section className="bg-surface-container-low py-32">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="flex justify-between items-end mb-16">
-              <div>
-                <h2 className="font-headline text-4xl font-extrabold tracking-tight mb-4">Latest News</h2>
-                <p className="text-on-surface-variant">Stay updated with official announcements and milestones.</p>
-              </div>
-              <button className="text-primary font-bold flex items-center gap-2 hover:gap-3 transition-all">
-                View Archive <span className="material-symbols-outlined">arrow_forward</span>
-              </button>
-            </div>
-            <div className="space-y-6">
-              {[
-                { date: "Oct 24, 2024", title: "Sruvo Expands Ethereal Sanctuary Platform to European Markets" },
-                { date: "Sep 12, 2024", title: "Revolutionizing Pet Care: Sruvo Launches AI-Powered Health Predictor" },
-                { date: "Aug 05, 2024", title: "Sruvo Closes Series C Funding to Accelerate Global Sanctuary Network" }
-              ].map((news, i) => (
-                <div key={i} className="glass-card p-8 rounded-xl flex flex-col md:flex-row md:items-center justify-between hover-lift group cursor-pointer">
-                  <div className="flex flex-col md:flex-row md:items-center gap-8">
-                    <div className="text-sm font-semibold text-primary/60 font-headline uppercase tracking-widest whitespace-nowrap">
-                      {news.date}
-                    </div>
-                    <h3 className="text-2xl font-headline font-bold text-on-surface group-hover:text-primary transition-colors">
-                      {news.title}
-                    </h3>
-                  </div>
-                  <div className="mt-4 md:mt-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="material-symbols-outlined text-primary text-3xl">download_for_offline</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Media Inquiries */}
-        <section className="py-32">
-          <div className="max-w-5xl mx-auto px-8">
-            <div className="bg-gradient-primary rounded-[2.5rem] p-12 md:p-24 text-center text-on-primary shadow-2xl relative overflow-hidden">
+        <section className="pt-20 pb-32">
+          <div className="max-w-5xl mx-auto px-4 md:px-8">
+            <div className="bg-gradient-primary rounded-[2.5rem] p-8 md:p-24 text-center text-on-primary shadow-2xl relative overflow-hidden">
               <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)", backgroundSize: "40px 40px" }}></div>
-              <h2 className="font-headline text-5xl md:text-6xl font-extrabold tracking-tighter mb-8 relative z-10">
+              <h2 className="font-headline text-4xl md:text-6xl font-extrabold tracking-tighter mb-8 relative z-10">
                 Media Inquiries
               </h2>
-              <p className="text-xl mb-12 opacity-90 max-w-2xl mx-auto relative z-10">
+              <p className="text-lg md:text-xl mb-12 opacity-90 max-w-2xl mx-auto relative z-10">
                 For interview requests, deeper data insights, or collaboration opportunities, our press team is ready to assist.
               </p>
-              <a className="inline-flex items-center gap-4 bg-white text-primary px-10 py-5 rounded-full font-headline font-bold text-xl hover:scale-105 transition-transform shadow-xl relative z-10" href="mailto:thesruvo@gmail.com">
-                thesruvo@gmail.com
-                <span className="material-symbols-outlined">mail</span>
-              </a>
+              <div className="relative z-10 flex justify-center">
+                <a className="inline-flex items-center gap-2 md:gap-4 bg-white text-primary px-6 md:px-10 py-4 md:py-5 rounded-full font-headline font-bold text-sm md:text-xl hover:scale-105 transition-transform shadow-xl w-full sm:w-auto overflow-hidden text-ellipsis whitespace-nowrap justify-center" href="mailto:thesruvo@gmail.com">
+                  <span className="truncate">thesruvo@gmail.com</span>
+                  <span className="material-symbols-outlined shrink-0">mail</span>
+                </a>
+              </div>
             </div>
           </div>
         </section>
