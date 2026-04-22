@@ -6,6 +6,7 @@
 import { motion } from "motion/react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { analytics } from "../lib/analytics";
 import { supabase } from "../lib/supabase";
 import Footer from "./Footer";
 
@@ -117,6 +118,9 @@ export default function EarlyAccess() {
         .single();
 
       if (insertError) throw insertError;
+
+      // Track Signup in Analytics
+      analytics.trackSignup(email);
 
       // 2. Calculate Queue Position
       // Count how many people signed up before this user

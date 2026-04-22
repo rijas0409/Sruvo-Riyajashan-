@@ -17,11 +17,16 @@ import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsOfService from "./components/TermsOfService";
 import BecomePartner from "./components/BecomePartner";
 import PressKit from "./pages/PressKit";
+import TrafficDashboard from "./pages/TrafficDashboard";
+import NotFound from "./pages/NotFound";
+import { analytics } from "./lib/analytics";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Track Page View
+    analytics.trackPageView(pathname);
   }, [pathname]);
   return null;
 }
@@ -30,21 +35,27 @@ function AppContent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const isEarlyAccess = location.pathname === '/early-access';
-  const isPressKit = location.pathname === '/press-kit';
+  const isTrafficPage = location.pathname === '/traffic';
+  
+  // Check if current route is valid
+  const validRoutes = ['/', '/how-it-works', '/features', '/for-vets', '/early-access', '/contact', '/privacy-policy', '/terms-of-service', '/become-partner', '/press-kit', '/traffic'];
+  const isNotFound = !validRoutes.includes(location.pathname);
 
   return (
     <div className="relative min-h-screen">
       {/* Global Background Decorations */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[10%] left-[-5%] w-[500px] h-[500px] bg-tertiary/5 rounded-full blur-[100px]"></div>
-      </div>
+      {!isTrafficPage && !isNotFound && (
+        <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+          <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]"></div>
+          <div className="absolute bottom-[10%] left-[-5%] w-[500px] h-[500px] bg-tertiary/5 rounded-full blur-[100px]"></div>
+        </div>
+      )}
 
       {/* Global Grain Overlay */}
-      <div className="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>
+      {!isTrafficPage && !isNotFound && <div className="fixed inset-0 grain-overlay z-0 pointer-events-none"></div>}
 
       <ScrollToTop />
-      {!isEarlyAccess && (
+      {!isEarlyAccess && !isTrafficPage && !isNotFound && (
         <Navbar 
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
@@ -61,8 +72,10 @@ function AppContent() {
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/become-partner" element={<BecomePartner />} />
         <Route path="/press-kit" element={<PressKit />} />
+        <Route path="/traffic" element={<TrafficDashboard />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
-      {!isEarlyAccess && <BottomLayout />}
+      {!isEarlyAccess && !isTrafficPage && !isNotFound && <BottomLayout />}
     </div>
   );
 }
