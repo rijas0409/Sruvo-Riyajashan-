@@ -138,7 +138,7 @@ export default function PressKit() {
               {/* Testimonial 1: Pet Owner */}
               <div className="glass-card p-10 rounded-[2.5rem] border border-white/40 shadow-xl hover-lift">
                 <div className="w-20 h-20 rounded-full overflow-hidden mb-8 border-2 border-primary/20 bg-surface-container-high">
-                  <img src="https://picsum.photos/seed/sarah/200/200" alt="Sarah" className="w-full h-full object-cover grayscale" referrerPolicy="no-referrer" />
+                  <img src="https://drive.google.com/thumbnail?id=1RmfFXFO48n3fO4e_-i6Tzv_mC_sTQR5t&sz=w1000" alt="Raj Jassar" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 </div>
                 <div className="space-y-4">
                   <p className="text-on-surface text-xl font-light italic leading-relaxed">
@@ -153,7 +153,7 @@ export default function PressKit() {
               {/* Testimonial 2: Veterinarian */}
               <div className="glass-card p-10 rounded-[2.5rem] border border-white/40 shadow-xl hover-lift lg:translate-y-12">
                 <div className="w-20 h-20 rounded-full overflow-hidden mb-8 border-2 border-primary/20 bg-surface-container-high">
-                  <img src="https://picsum.photos/seed/doc/200/200" alt="Dr. Aris" className="w-full h-full object-cover grayscale" referrerPolicy="no-referrer" />
+                  <img src="https://drive.google.com/thumbnail?id=1akJzyr_WO4_15c9IQ6eTCZd_oRCLdz40&sz=w1000" alt="Dr. Rishu Verma" className="w-full h-full object-cover object-[center_49%]" referrerPolicy="no-referrer" />
                 </div>
                 <div className="space-y-4">
                   <p className="text-on-surface text-xl font-light italic leading-relaxed">
@@ -168,7 +168,7 @@ export default function PressKit() {
               {/* Testimonial 3: Breeder */}
               <div className="glass-card p-10 rounded-[2.5rem] border border-white/40 shadow-xl hover-lift">
                 <div className="w-20 h-20 rounded-full overflow-hidden mb-8 border-2 border-primary/20 bg-surface-container-high">
-                  <img src="https://picsum.photos/seed/mark/200/200" alt="Mark" className="w-full h-full object-cover grayscale" referrerPolicy="no-referrer" />
+                  <img src="https://drive.google.com/thumbnail?id=1pLdehhNTqEOWcrcMbHkCLtJRt6-GquiC&sz=w1000" alt="Karanveer Singh Gill" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 </div>
                 <div className="space-y-4">
                   <p className="text-on-surface text-xl font-light italic leading-relaxed">
@@ -183,7 +183,7 @@ export default function PressKit() {
               {/* Testimonial 4: Animal Welfare Expert */}
               <div className="glass-card p-10 rounded-[2.5rem] border border-white/40 shadow-xl hover-lift lg:translate-y-12">
                 <div className="w-20 h-20 rounded-full overflow-hidden mb-8 border-2 border-primary/20 bg-surface-container-high">
-                  <img src="https://picsum.photos/seed/elena/200/200" alt="Elena" className="w-full h-full object-cover grayscale" referrerPolicy="no-referrer" />
+                  <img src="https://drive.google.com/thumbnail?id=1GALhLh_E8t99UXJr-Ms2eZDTjU_kirjs&sz=w1000" alt="Arsh Kapoor" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 </div>
                 <div className="space-y-4">
                   <p className="text-on-surface text-xl font-light italic leading-relaxed">
