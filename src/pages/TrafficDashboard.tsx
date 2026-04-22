@@ -11,6 +11,7 @@ import {
   PieChart, Pie, Cell 
 } from 'recharts';
 import { useAnalyticsData, TimeFilter } from "../hooks/useAnalyticsData";
+import AnnouncementManager from "../components/AnnouncementManager";
 
 export default function TrafficDashboard() {
   const [filter, setFilter] = useState<TimeFilter>('30D');
@@ -429,6 +430,11 @@ export default function TrafficDashboard() {
               </div>
               <button className="w-full mt-4 py-3 text-sm font-bold text-primary hover:bg-primary/5 rounded-xl transition-colors">View All Contacts</button>
             </div>
+          </section>
+
+          {/* Announcement Center Management Section */}
+          <section className="pb-8">
+            <AnnouncementManager />
           </section>
 
           {/* Bottom Asymmetric Canvas Element */}

@@ -19,6 +19,7 @@ import BecomePartner from "./components/BecomePartner";
 import PressKit from "./pages/PressKit";
 import TrafficDashboard from "./pages/TrafficDashboard";
 import NotFound from "./pages/NotFound";
+import AnnouncementBanner from "./components/AnnouncementBanner";
 import { analytics } from "./lib/analytics";
 
 function ScrollToTop() {
@@ -43,6 +44,7 @@ function AppContent() {
 
   return (
     <div className="relative min-h-screen">
+      <AnnouncementBanner />
       {/* Global Background Decorations */}
       {!isTrafficPage && !isNotFound && (
         <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
