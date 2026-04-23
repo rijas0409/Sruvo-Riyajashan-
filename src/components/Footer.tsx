@@ -38,6 +38,7 @@ export default function Footer() {
           <div className="flex justify-center gap-8 md:gap-12">
             <Link to="/contact" className="text-on-surface-variant hover:text-primary text-sm font-medium transition-all hover:underline decoration-primary/30">Contact</Link>
             <Link to="/press-kit" className="text-on-surface-variant hover:text-primary text-sm font-medium transition-all hover:underline decoration-primary/30">Press Kit</Link>
+            <Link to="/pet-transportation" className="text-on-surface-variant hover:text-primary text-sm font-medium transition-all hover:underline decoration-primary/30">Pet Transportation</Link>
           </div>
         </div>
         <div className="text-on-surface-variant text-sm">

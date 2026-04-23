@@ -20,7 +20,7 @@ export default function Navbar() {
   ] as const;
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(167,109,255,0.04)]">
+    <nav className="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(167,109,255,0.04)]">
       <div className="flex justify-between items-center px-4 md:px-6 py-3 max-w-7xl mx-auto">
         <div className="flex items-center gap-3">
           <button 
