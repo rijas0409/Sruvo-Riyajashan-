@@ -8,8 +8,7 @@ import {
   Fingerprint, 
   Stethoscope, 
   Sparkles, 
-  ArrowRight,
-  Truck
+  ArrowRight
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import BottomLayout from "../components/BottomLayout";
@@ -227,46 +226,6 @@ export default function Home() {
               <p className="text-center mt-6 font-bold text-on-surface-variant">{ui.title}</p>
             </div>
           ))}
-        </div>
-      </section>
-      {/* Partner Section */}
-      <section className="py-24 max-w-7xl mx-auto px-6">
-        <div className="glass-card rounded-[3rem] p-12 md:p-20 border border-white/40 shadow-2xl relative overflow-hidden bg-gradient-to-br from-white to-primary/5">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/5 blur-[80px] rounded-full -mr-32 -mt-32"></div>
-          <div className="relative z-10 text-center max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-extrabold font-headline mb-6 tracking-tight">Partner with Sruvo</h2>
-            <p className="text-on-surface-variant text-lg leading-relaxed mb-12">
-              Are you a professional providing top-tier pet services? Join our ethereal network and reach thousands of pet parents looking for the best care.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <motion.div 
-                whileHover={{ scale: 1.02 }}
-                onClick={() => navigate('/become-partner')}
-                className="p-8 bg-white/60 hover:bg-white rounded-[2rem] border border-white/50 shadow-lg cursor-pointer transition-all group"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-                  <Stethoscope className="w-7 h-7" />
-                </div>
-                <h3 className="text-2xl font-bold font-headline mb-2 flex items-center justify-center gap-2">
-                  Veterinary Partner <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0" />
-                </h3>
-                <p className="text-sm text-on-surface-variant">For clinics, hospitals, and independent veterinary practitioners.</p>
-              </motion.div>
-              <motion.div 
-                whileHover={{ scale: 1.02 }}
-                onClick={() => navigate('/pet-transportation')}
-                className="p-8 bg-white/60 hover:bg-white rounded-[2rem] border border-white/50 shadow-lg cursor-pointer transition-all group"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-secondary-container/20 flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform">
-                  <Truck className="w-7 h-7" />
-                </div>
-                <h3 className="text-2xl font-bold font-headline mb-2 flex items-center justify-center gap-2">
-                  Transport Partner <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0" />
-                </h3>
-                <p className="text-sm text-on-surface-variant">For pet relocation agencies and specialized transport services.</p>
-              </motion.div>
-            </div>
-          </div>
         </div>
       </section>
     </div>

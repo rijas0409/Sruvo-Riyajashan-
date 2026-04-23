@@ -16,7 +16,6 @@ import Contact from "./components/Contact";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsOfService from "./components/TermsOfService";
 import BecomePartner from "./components/BecomePartner";
-import PetTransportationPartner from "./components/PetTransportationPartner";
 import PressKit from "./pages/PressKit";
 import TrafficDashboard from "./pages/TrafficDashboard";
 import NotFound from "./pages/NotFound";
@@ -40,7 +39,7 @@ function AppContent() {
   const isTrafficPage = location.pathname === '/traffic';
   
   // Check if current route is valid
-  const validRoutes = ['/', '/how-it-works', '/features', '/for-vets', '/early-access', '/contact', '/privacy-policy', '/terms-of-service', '/become-partner', '/press-kit', '/traffic', '/pet-transportation'];
+  const validRoutes = ['/', '/how-it-works', '/features', '/for-vets', '/early-access', '/contact', '/privacy-policy', '/terms-of-service', '/become-partner', '/press-kit', '/traffic'];
   const isNotFound = !validRoutes.includes(location.pathname);
 
   return (
@@ -74,7 +73,6 @@ function AppContent() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/become-partner" element={<BecomePartner />} />
-        <Route path="/pet-transportation" element={<PetTransportationPartner />} />
         <Route path="/press-kit" element={<PressKit />} />
         <Route path="/traffic" element={<TrafficDashboard />} />
         <Route path="*" element={<NotFound />} />

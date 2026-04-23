@@ -273,10 +273,10 @@ export default function BecomePartner() {
                           <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-outline">expand_more</span>
                         </div>
                       ) : (
-                        <div className="relative flex gap-2">
+                        <div className="relative">
                           <input 
                             name="experience"
-                            className="w-full bg-surface-container-low border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-tertiary transition-all placeholder:text-outline/50 font-body" 
+                            className="w-full bg-surface-container-low border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-tertiary transition-all placeholder:text-outline/50 font-body pr-12" 
                             autoFocus
                             min="1" 
                             placeholder="Enter years (e.g. 16)" 
@@ -287,9 +287,12 @@ export default function BecomePartner() {
                           />
                           <button 
                             type="button"
-                            onClick={() => setShowManualExperience(false)}
-                            className="px-4 py-4 bg-surface-container-high rounded-2xl text-on-surface-variant hover:bg-surface-container-highest transition-colors"
-                            title="Back to dropdown"
+                            onClick={() => {
+                              setShowManualExperience(false);
+                              setFormData(prev => ({ ...prev, experience: "" }));
+                            }}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors"
+                            title="Back to list"
                           >
                             <X className="w-5 h-5" />
                           </button>
