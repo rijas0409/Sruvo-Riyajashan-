@@ -95,7 +95,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-sm font-headline font-bold text-on-surface-variant uppercase tracking-widest mb-1">Email Us</p>
-                  <a className="text-lg font-semibold text-on-surface hover:text-primary transition-colors" href="mailto:noreply.sruvo@gmail.com">noreply.sruvo@gmail.com</a>
+                  <a className="text-lg font-semibold text-on-surface hover:text-primary transition-colors" href="mailto:thesruvo@gmail.com">thesruvo@gmail.com</a>
                 </div>
               </div>
             </div>
@@ -118,7 +118,7 @@ export default function Contact() {
                       value={formData.name}
                       onChange={handleChange}
                       className="w-full bg-surface-container-low border-none rounded-2xl p-5 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-tertiary transition-all outline-none" 
-                      placeholder="John Doe" 
+                      placeholder="Jas Pabla" 
                       type="text"
                       required
                     />
@@ -130,7 +130,7 @@ export default function Contact() {
                       value={formData.email}
                       onChange={handleChange}
                       className="w-full bg-surface-container-low border-none rounded-2xl p-5 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-tertiary transition-all outline-none" 
-                      placeholder="john@example.com" 
+                      placeholder="rijas@sruvo.com" 
                       type="email"
                       required
                     />

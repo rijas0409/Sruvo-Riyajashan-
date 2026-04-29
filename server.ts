@@ -212,6 +212,15 @@ app.post("/api/send-welcome-email", async (req, res) => {
       Stay tuned — something amazing is coming your way 🚀
     </p>
 
+    <div style="margin-top: 35px; border-top: 1px solid #eee; padding-top: 25px; display: flex; align-items: center; justify-content: center; gap: 15px;">
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3S7ZXGVoZ8QLJ7UyDxufKyhZoMqIjWShfzOK94nzal2uPyN88SSnwGVJHm3KhGuKMW2qo1zUttjeLxx0FplOct9MsBvOSXm2Re0gCxk81uXyVtn9A15U_y-q_sgdJOIagEjL26NUed2tdLZJDwYSpclHxGa6y7BxgJ7_OCtoZ9IjD9dDxZA3Pjl10zOe6hOJOuDQJjkNsn_FUMkg4roz_-I6TsJRlUnLF9GdiH4pOOem51zSoNkeQDbhIkNMAWv-XpmIhdyzF9ZA" 
+           style="width: 50px; height: 50px; border-radius: 50%; border: 3px solid #fff; shadow: 0 5px 15px rgba(0,0,0,0.08);" 
+           alt="Jashanpreet Singh Pabla">
+      <div style="text-align: left;">
+        <div style="font-weight: 800; color: #1a1a1a; font-size: 14px;">Jashanpreet Singh Pabla</div>
+        <div style="font-size: 11px; color: #7a5cff; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Founder & CEO</div>
+      </div>
+    </div>
   </div>
 
   <div class="footer">
@@ -267,13 +276,13 @@ app.post("/api/send-welcome-email", async (req, res) => {
     try {
       // Send both emails in parallel to save time and avoid timeouts
       await Promise.all([
-        // 1. Send notification to admin (thesruvo@gmail.com)
+        // 1. Send notification to admin (noreply.sruvo@gmail.com)
         transporter.sendMail({
           from: `"${name}" <${user}>`,
-          to: "thesruvo@gmail.com", // Dedicated admin inbox
+          to: "noreply.sruvo@gmail.com", // Dedicated admin inbox
           envelope: {
             from: user,
-            to: ["thesruvo@gmail.com"] 
+            to: ["noreply.sruvo@gmail.com"] 
           },
           replyTo: email,
           subject: `[SUPPORT-REQUEST] New Contact Form: ${subject}`,
@@ -289,6 +298,7 @@ app.post("/api/send-welcome-email", async (req, res) => {
   .wrapper { max-width: 600px; margin: auto; padding: 20px; }
   .container { background: linear-gradient(145deg, #ffffff, #f3f4f8); border-radius: 18px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
   .header { text-align: center; margin-bottom: 20px; }
+  .logo-img { width: 80px; height: auto; margin-bottom: 12px; }
   .logo { font-size: 28px; font-weight: 800; color: #7a5cff; }
   .logo-gradient {
     background: linear-gradient(90deg, #ff7eb3, #7a5cff);
@@ -311,6 +321,7 @@ app.post("/api/send-welcome-email", async (req, res) => {
 <div class="wrapper">
   <div class="container">
     <div class="header">
+      <img src="https://lh3.googleusercontent.com/d/1n2SgWctS5RgMjR2Uouvq-KpsqW5_ASxx" alt="Sruvo Logo" class="logo-img">
       <div class="logo"><span class="logo-gradient">Sruvo</span></div>
       <div class="title">New Contact Submission 📩</div>
       <div class="tag">NEW REQUEST</div>
@@ -379,6 +390,16 @@ app.post("/api/send-welcome-email", async (req, res) => {
     <p>Hi ${name},</p>
     <p>Thank you for reaching out to <b>Sruvo</b>. We’ve successfully received your request regarding "<b>${subject}</b>".</p>
     <p>Our support team will connect with you within <b>24–48 hours</b>.</p>
+    
+    <div style="margin-top: 30px; border-top: 1px solid #eee; pt-20; display: flex; align-items: center; justify-content: center; gap: 12px; padding-top: 20px;">
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3S7ZXGVoZ8QLJ7UyDxufKyhZoMqIjWShfzOK94nzal2uPyN88SSnwGVJHm3KhGuKMW2qo1zUttjeLxx0FplOct9MsBvOSXm2Re0gCxk81uXyVtn9A15U_y-q_sgdJOIagEjL26NUed2tdLZJDwYSpclHxGa6y7BxgJ7_OCtoZ9IjD9dDxZA3Pjl10zOe6hOJOuDQJjkNsn_FUMkg4roz_-I6TsJRlUnLF9GdiH4pOOem51zSoNkeQDbhIkNMAWv-XpmIhdyzF9ZA" 
+           style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" 
+           alt="Jashanpreet Singh Pabla">
+      <div style="text-align: left;">
+        <div style="font-weight: bold; color: #222; font-size: 13px;">Jashanpreet Singh Pabla</div>
+        <div style="font-size: 11px; color: #888;">Founder, Sruvo</div>
+      </div>
+    </div>
   </div>
   <div class="footer">
     © 2026 Sruvo • Built with care for pets & their people  
@@ -602,6 +623,16 @@ app.post("/api/send-partner-email", async (req, res) => {
 
           <div class="btn-container">
             <a href="https://sruvo.com/how-it-works" class="button">Explore the Platform</a>
+          </div>
+
+          <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: center; gap: 15px;">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3S7ZXGVoZ8QLJ7UyDxufKyhZoMqIjWShfzOK94nzal2uPyN88SSnwGVJHm3KhGuKMW2qo1zUttjeLxx0FplOct9MsBvOSXm2Re0gCxk81uXyVtn9A15U_y-q_sgdJOIagEjL26NUed2tdLZJDwYSpclHxGa6y7BxgJ7_OCtoZ9IjD9dDxZA3Pjl10zOe6hOJOuDQJjkNsn_FUMkg4roz_-I6TsJRlUnLF9GdiH4pOOem51zSoNkeQDbhIkNMAWv-XpmIhdyzF9ZA" 
+                 style="width: 50px; height: 50px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1);" 
+                 alt="Jashanpreet Singh Pabla">
+            <div style="text-align: left;">
+              <div style="font-weight: 800; color: #1a1a1a; font-size: 14px;">Jashanpreet Singh Pabla</div>
+              <div style="font-size: 12px; color: #7a5cff; font-weight: 600;">Founder • Sruvo</div>
+            </div>
           </div>
 
           <p style="margin-top: 32px; font-size: 14px; color: #888;">We appreciate your interest in building a better future for pet care with us 🐾</p>
