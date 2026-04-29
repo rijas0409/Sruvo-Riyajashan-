@@ -45,8 +45,8 @@ const MetricCard = memo(({
     onClick={onClick}
     className={`bg-white dark:bg-slate-800 rounded-[24px] p-8 flex flex-col relative overflow-hidden transition-all cursor-pointer border shadow-sm hover:shadow-md group ${isActive ? 'ring-2 ring-primary/20 border-primary/30' : 'border-slate-100 dark:border-slate-700'}`}
   >
-    {/* Purple Line on Left - Permanent for Live, Hover for others */}
-    <div className={`absolute left-0 top-0 bottom-0 w-1 bg-[#7436c9] transition-transform duration-300 ${isLive ? 'translate-x-0' : '-translate-x-full group-hover:translate-x-0'}`} />
+    {/* Curved Indicator Line on Left - Permanent for Live, Hover for others */}
+    <div className={`absolute left-0 top-3 bottom-3 w-1.5 bg-[#7436c9] rounded-r-full shadow-[0_0_10px_rgba(116,54,201,0.3)] transition-transform duration-300 ${isLive ? 'translate-x-0' : '-translate-x-full group-hover:translate-x-0'}`} />
     
     <div className="flex justify-between items-start mb-6">
       <div className={`w-12 h-12 rounded-xl flex items-center justify-center`} style={{ backgroundColor: iconBg }}>
@@ -127,11 +127,17 @@ const SidebarLink = memo(({
 }) => (
   <button 
     onClick={onClick}
-    className={`w-full flex items-center ${collapsed ? 'justify-center px-0' : 'gap-3 px-4'} py-3 rounded-xl transition-all scale-95 active:scale-90 ${active ? 'text-primary dark:text-purple-300 font-bold border-r-4 border-[#A76DFF] bg-purple-50/50' : 'text-on-surface-variant hover:text-primary transition-colors hover:bg-white/50 hover:translate-x-1'}`}
+    className={`w-full flex items-center ${collapsed ? 'justify-center px-0' : 'gap-4 px-6'} py-3.5 transition-all relative rounded-r-2xl group ${active ? 'text-[#7436c9] bg-[#f8f6ff] dark:bg-purple-900/10 font-bold' : 'text-slate-500 hover:text-[#7436c9] hover:bg-slate-50 dark:hover:bg-slate-800/50'}`}
     title={collapsed ? label : ""}
   >
-    <span className="material-symbols-outlined">{icon}</span>
-    {!collapsed && <span className="whitespace-nowrap">{label}</span>}
+    <span className={`material-symbols-outlined ${active ? 'fill-1' : ''} text-2xl`}>{icon}</span>
+    {!collapsed && <span className="text-[13px] tracking-tight">{label}</span>}
+    {active && (
+      <motion.div 
+        layoutId="activeNav"
+        className="absolute right-0 top-1 bottom-1 w-1.5 bg-[#7436c9] rounded-l-full shadow-[0_0_15px_rgba(116,54,201,0.4)]"
+      />
+    )}
   </button>
 ));
 
@@ -173,12 +179,20 @@ export default function TrafficDashboard() {
 
   const { stats, visitorTrends, trafficSources, pagePerformance, recentSignups } = useAnalyticsData(filter, customRange);
 
+  // Handle toast
   useEffect(() => {
     if (toast) {
       const timer = setTimeout(() => setToast(null), 3000);
       return () => clearTimeout(timer);
     }
   }, [toast]);
+
+  // Debug log for counts (internal)
+  useEffect(() => {
+    if (stats.totalSignups > 0) {
+      console.log('Signups detected:', stats.totalSignups);
+    }
+  }, [stats.totalSignups]);
 
   // Real-time Health Score logic
   const [healthScore, setHealthScore] = useState(98);
@@ -329,15 +343,15 @@ export default function TrafficDashboard() {
       </AnimatePresence>
       
       {/* SideNavBar Placeholder for Desktop to prevent content jump */}
-      <div className={`hidden lg:block shrink-0 transition-all duration-300 ${isSidebarCollapsed ? 'w-16' : 'w-64'}`} />
+      <div className={`hidden lg:block shrink-0 transition-all duration-300 ${isSidebarCollapsed ? 'w-20' : 'w-64'}`} />
       
       {/* SideNavBar */}
-      <aside className={`fixed left-0 top-0 h-screen flex flex-col z-[60] bg-white dark:bg-slate-900 border-r border-slate-100 dark:border-slate-800 transition-all duration-300 ${isSidebarCollapsed ? 'w-16 p-3' : 'w-64 p-6 shadow-2xl'} ${isMobileMenuOpen ? 'translate-x-0 w-64 p-6' : '-translate-x-full lg:translate-x-0'}`}>
-        <div className={`mb-10 flex items-center ${isSidebarCollapsed && !isMobileMenuOpen ? 'justify-center px-0' : 'justify-between px-4'}`}>
+      <aside className={`fixed left-0 top-0 h-screen flex flex-col z-[60] bg-white dark:bg-slate-900 border-r border-slate-100 dark:border-slate-800 transition-all duration-300 ${isSidebarCollapsed ? 'w-20' : 'w-64 shadow-2xl'} ${isMobileMenuOpen ? 'translate-x-0 w-64' : '-translate-x-full lg:translate-x-0'}`}>
+        <div className={`py-6 mb-2 flex items-center ${isSidebarCollapsed && !isMobileMenuOpen ? 'justify-center flex-col gap-8' : 'justify-between px-6'}`}>
           {(!isSidebarCollapsed || isMobileMenuOpen) && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="truncate">
-              <span className="text-xl font-bold bg-gradient-to-r from-[#FF6A88] to-[#A76DFF] bg-clip-text text-transparent">Sruvo</span>
-              <p className="text-[10px] text-on-surface-variant/60 uppercase tracking-[0.2em] mt-1">Ethereal</p>
+              <span className="text-xl font-black text-[#7436c9]">Sruvo</span>
+              <p className="text-[9px] text-slate-400 font-black uppercase tracking-[0.3em] leading-none mt-1">Ethereal</p>
             </motion.div>
           )}
           <button 
@@ -348,44 +362,45 @@ export default function TrafficDashboard() {
                 setIsSidebarCollapsed(!isSidebarCollapsed);
               }
             }}
-            className={`p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-500`}
+            className={`p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors text-slate-400 ${isSidebarCollapsed && !isMobileMenuOpen ? 'order-first' : ''}`}
           >
-            <span className="material-symbols-outlined">{isSidebarCollapsed ? 'menu' : 'menu_open'}</span>
+            <span className="material-symbols-outlined text-2xl">{isSidebarCollapsed && !isMobileMenuOpen ? 'menu' : 'menu_open'}</span>
           </button>
         </div>
-        <nav className="flex-1 space-y-2">
+
+        <nav className="flex-1 overflow-y-auto py-2">
           <SidebarLink 
             active={currentView === 'overview'} 
-            collapsed={isSidebarCollapsed} 
-            onClick={() => setCurrentView('overview')} 
-            icon="dashboard" 
+            collapsed={isSidebarCollapsed && !isMobileMenuOpen} 
+            onClick={() => { setCurrentView('overview'); setIsMobileMenuOpen(false); }} 
+            icon="grid_view" 
             label="Overview" 
           />
           <SidebarLink 
             active={currentView === 'announcements'} 
-            collapsed={isSidebarCollapsed} 
-            onClick={() => setCurrentView('announcements')} 
+            collapsed={isSidebarCollapsed && !isMobileMenuOpen} 
+            onClick={() => { setCurrentView('announcements'); setIsMobileMenuOpen(false); }} 
             icon="campaign" 
             label="Announcements" 
           />
           <SidebarLink 
             active={currentView === 'audience'} 
-            collapsed={isSidebarCollapsed} 
-            onClick={() => setCurrentView('audience')} 
+            collapsed={isSidebarCollapsed && !isMobileMenuOpen} 
+            onClick={() => { setCurrentView('audience'); setIsMobileMenuOpen(false); }} 
             icon="group" 
             label="Audience" 
           />
           <SidebarLink 
-            active={false} 
-            collapsed={isSidebarCollapsed} 
-            onClick={() => { setCurrentView('overview'); handleRefresh(); }} 
+            active={currentView === 'live'} 
+            collapsed={isSidebarCollapsed && !isMobileMenuOpen} 
+            onClick={() => { setCurrentView('live'); setIsMobileMenuOpen(false); }} 
             icon="sensors" 
             label="Live Traffic" 
           />
           <SidebarLink 
             active={currentView === 'settings'} 
-            collapsed={isSidebarCollapsed} 
-            onClick={() => setCurrentView('settings')} 
+            collapsed={isSidebarCollapsed && !isMobileMenuOpen} 
+            onClick={() => { setCurrentView('settings'); setIsMobileMenuOpen(false); }} 
             icon="settings" 
             label="Settings" 
           />

@@ -13,64 +13,59 @@ export function useAnalyticsData(filter: TimeFilter = '30D', customRange?: { sta
   const [data, setData] = useState<{
     visits: Visit[];
     signups: SignupEvent[];
+    supabaseSignups: any[];
     liveVisitors: number;
-    dbSignupsCount: number | null;
   }>({
     visits: [],
     signups: [],
-    liveVisitors: 0,
-    dbSignupsCount: null
+    supabaseSignups: [],
+    liveVisitors: 0
   });
 
   useEffect(() => {
     const load = async () => {
-      // Load local analytics
-      const visits = analytics.getVisits();
+      const localVisits = analytics.getVisits();
       const localSignups = analytics.getSignups();
-      const liveVisitors = analytics.getLiveVisitors();
+      const live = analytics.getLiveVisitors();
 
-      // Load real signups from Supabase for accurate counts and lists
+      let dbSignups: any[] = [];
       try {
-        // Fetch last 50 signups to populate the list and get a better count
-        const { data: dbSignups, count, error } = await supabase
+        const { data: signupsFromDb, error } = await supabase
           .from('early_access')
-          .select('email, created_at, role, city', { count: 'exact' })
-          .order('created_at', { ascending: false })
-          .limit(50);
+          .select('*')
+          .order('created_at', { ascending: false });
         
-        if (!error && dbSignups) {
-          // Map DB signups to our SignupEvent format
-          const mappedSignups: SignupEvent[] = dbSignups.map(s => ({
-            email: s.email,
-            timestamp: new Date(s.created_at).getTime(),
-            source: 'Verified', // Or map from roles if needed
-            path: '/early-access',
-            device: 'Desktop', // Placeholder
-            browser: 'Chrome', // Placeholder
-            country: s.city || 'India' // Using city as country placeholder for now
-          }));
+        if (error) {
+          console.warn('Supabase fetch error:', error.message);
+        }
 
-          setData({
-            visits,
-            signups: mappedSignups,
-            liveVisitors,
-            dbSignupsCount: count
-          });
-        } else {
-          setData({ visits, signups: localSignups, liveVisitors, dbSignupsCount: null });
+        if (signupsFromDb && signupsFromDb.length > 0) {
+          dbSignups = signupsFromDb.map(s => ({
+            email: s.email || 'unknown@sruvo.com',
+            timestamp: s.created_at ? new Date(s.created_at).getTime() : Date.now(),
+            source: 'Database', 
+            path: '/early-access',
+            device: 'Desktop',
+            browser: 'Chrome',
+            country: s.city || 'India'
+          }));
         }
       } catch (err) {
-        console.error("Failed to fetch signups from Supabase:", err);
-        setData({ visits, signups: localSignups, liveVisitors, dbSignupsCount: null });
+        console.error('Failed to fetch from Supabase:', err);
       }
+
+      setData({
+        visits: localVisits,
+        signups: localSignups,
+        supabaseSignups: dbSignups,
+        liveVisitors: live
+      });
     };
 
     load();
-    const interval = setInterval(load, 5000); // refresh every 5s for dashboard feel
+    const interval = setInterval(load, 5000); // refresh every 5s
     
-    // Listen for storage changes from other tabs
     window.addEventListener('storage', load);
-    
     return () => {
       clearInterval(interval);
       window.removeEventListener('storage', load);
@@ -100,7 +95,22 @@ export function useAnalyticsData(filter: TimeFilter = '30D', customRange?: { sta
     }
 
     const filteredVisits = data.visits.filter(v => v.timestamp >= startTime && v.timestamp <= endTime);
-    const filteredSignups = data.signups.filter(s => s.timestamp >= startTime && s.timestamp <= endTime);
+    
+    // Merge local signups with supabase signups, avoiding duplicates by email
+    const allSignupsMap = new Map<string, SignupEvent>();
+    
+    // Add local first
+    data.signups.forEach(s => {
+      allSignupsMap.set(s.email, s);
+    });
+    
+    // Overwrite/Add with database ones (more reliable)
+    data.supabaseSignups.forEach(s => {
+      allSignupsMap.set(s.email, s);
+    });
+
+    const allSignups = Array.from(allSignupsMap.values());
+    const filteredSignups = allSignups.filter(s => s.timestamp >= startTime && s.timestamp <= endTime);
 
     // Grouping for charts
     const dailyMap = new Map<string, number>();
@@ -140,7 +150,7 @@ export function useAnalyticsData(filter: TimeFilter = '30D', customRange?: { sta
     // Stats
     const totalVisitors = filteredVisits.length;
     const uniqueVisitors = new Set(filteredVisits.map(v => v.visitorId)).size;
-    const totalSignups = (data.dbSignupsCount !== null && filter === '30D') ? data.dbSignupsCount : filteredSignups.length;
+    const totalSignups = filteredSignups.length;
     const conversionRate = totalVisitors > 0 ? (totalSignups / totalVisitors) * 100 : 0;
     
     // Avg Session Duration

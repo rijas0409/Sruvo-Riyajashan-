@@ -25,8 +25,8 @@ export interface SignupEvent {
   source: string;
   path: string;
   device: 'Mobile' | 'Tablet' | 'Desktop';
-  browser?: string;
-  country?: string;
+  browser: string;
+  country: string;
 }
 
 const STORAGE_KEY_VISITS = 'sruvo_analytics_visits';
@@ -128,7 +128,8 @@ class AnalyticsService {
       source: this.getSource(),
       path: this.currentPath,
       device: this.getDeviceType(),
-      browser: this.getBrowser()
+      browser: this.getBrowser(),
+      country: 'India' // Default for now
     };
     signups.push(event);
     this.saveSignups(signups);
