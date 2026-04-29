@@ -15,7 +15,7 @@ export default function AnnouncementManager() {
   // Form State
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
-  const [buttonText, setButtonText] = useState("");
+  const [buttonText, setButtonText] = useState("Learn More");
   const [buttonLink, setButtonLink] = useState("");
   const [targetPage, setTargetPage] = useState("All");
   const [priority, setPriority] = useState<AnnouncementPriority>("Normal");
@@ -25,18 +25,20 @@ export default function AnnouncementManager() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  const [toast, setToast] = useState<string | null>(null);
+
   useEffect(() => {
     refresh();
   }, []);
 
   const refresh = () => {
-    setAnnouncements(announcementService.getAll());
+    setAnnouncements(announcementService.getAll().sort((a, b) => b.createdAt - a.createdAt));
   };
 
   const resetForm = () => {
     setTitle("");
     setMessage("");
-    setButtonText("");
+    setButtonText("Learn More");
     setButtonLink("");
     setTargetPage("All");
     setPriority("Normal");
@@ -48,20 +50,27 @@ export default function AnnouncementManager() {
     setEditingId(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const onPublish = (finalStatus: AnnouncementStatus) => {
+    if (!title || !message) {
+      setToast("Please fill in title and message");
+      return;
+    }
+
     const data = {
-      title, message, buttonText, buttonLink, targetPage, priority, style, isSticky, status, startDate, endDate
+      title, message, buttonText, buttonLink, targetPage, priority, style, isSticky, 
+      status: finalStatus, startDate, endDate
     };
 
     if (editingId) {
       announcementService.update(editingId, data);
+      setToast(`Announcement updated as ${finalStatus}`);
     } else {
       announcementService.create(data);
+      setToast(`Announcement created as ${finalStatus}`);
     }
 
-    resetForm();
     setIsCreating(false);
+    resetForm();
     refresh();
   };
 
@@ -82,267 +91,302 @@ export default function AnnouncementManager() {
   };
 
   const handleDelete = (id: string) => {
-    if (confirm("Are you sure you want to delete this announcement?")) {
-      announcementService.delete(id);
-      refresh();
-    }
+    announcementService.delete(id);
+    refresh();
+    setToast("Announcement deleted");
   };
 
   const pages = [
       { name: 'All Pages', val: 'All' },
-      { name: 'Home', val: '/' },
-      { name: 'Features', val: '/features' },
-      { name: 'About', val: '/about' },
-      { name: 'Contact', val: '/contact' },
-      { name: 'Early Access', val: '/early-access' }
+      { name: 'Homepage', val: '/' },
+      { name: 'Early Access', val: '/early-access' },
+      { name: 'Traffic Dashboard', val: '/traffic' }
   ];
 
+  if (isCreating) {
+    return (
+      <div className="max-w-7xl mx-auto space-y-12 pb-24">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="space-y-4">
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
+              {editingId ? 'Edit Announcement' : 'New Announcement'}
+            </h2>
+          </div>
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <button 
+              onClick={() => { setIsCreating(false); resetForm(); }}
+              className="flex-1 md:flex-none px-6 py-4 text-slate-900 dark:text-white font-bold hover:bg-slate-100 rounded-2xl transition-all"
+            >
+              Discard
+            </button>
+            <button 
+              onClick={() => onPublish('Published')}
+              className="flex-1 md:flex-none px-8 py-4 bg-[#7436c9] text-white font-black rounded-2xl shadow-xl shadow-purple-500/30 hover:scale-105 active:scale-95 transition-all"
+            >
+              Publish Announcement
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          {/* Main Form Fields */}
+          <div className="lg:col-span-8 space-y-8">
+            <div className="bg-white dark:bg-slate-800 rounded-[32px] p-8 md:p-10 border border-slate-100 dark:border-slate-700 shadow-sm space-y-10">
+              <div>
+                <label className="block text-slate-500 font-bold text-sm mb-4">Announcement Title</label>
+                <input 
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="e.g. Exciting New Dashboard Features!"
+                  className="w-full bg-[#f8f9fc] dark:bg-slate-900 border-none rounded-2xl p-5 text-slate-900 dark:text-white font-medium focus:ring-2 ring-primary/20 transition-all outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-500 font-bold text-sm mb-4">Message Content</label>
+                <textarea 
+                  rows={8}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Describe the update in detail..."
+                  className="w-full bg-[#f8f9fc] dark:bg-slate-900 border-none rounded-2xl p-5 text-slate-900 dark:text-white font-medium focus:ring-2 ring-primary/20 transition-all outline-none resize-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <label className="block text-slate-500 font-bold text-sm mb-4">Call to Action Text</label>
+                  <input 
+                    value={buttonText}
+                    onChange={(e) => setButtonText(e.target.value)}
+                    className="w-full bg-[#f8f9fc] dark:bg-slate-900 border-none rounded-2xl p-5 text-slate-900 dark:text-white font-medium focus:ring-2 ring-primary/20 transition-all outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-500 font-bold text-sm mb-4">Action Link</label>
+                  <input 
+                    value={buttonLink}
+                    onChange={(e) => setButtonLink(e.target.value)}
+                    placeholder="https://notifypremium.com/docs"
+                    className="w-full bg-[#f8f9fc] dark:bg-slate-900 border-none rounded-2xl p-5 text-slate-900 dark:text-white font-medium focus:ring-2 ring-primary/20 transition-all outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Schedule Section */}
+            <div className="bg-white dark:bg-slate-800 rounded-[32px] p-8 md:p-10 border border-slate-100 dark:border-slate-700 shadow-sm">
+              <div className="flex items-center gap-3 mb-10">
+                <span className="material-symbols-outlined text-[#7436c9] text-3xl">calendar_today</span>
+                <h3 className="text-2xl font-black text-slate-900 dark:text-white">Schedule Availability</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div>
+                  <label className="block text-slate-500 font-bold text-sm mb-4">Start Date & Time</label>
+                  <input 
+                    type="datetime-local"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    className="w-full bg-[#f8f9fc] dark:bg-slate-900 border-none rounded-2xl p-5 text-slate-900 dark:text-white font-medium focus:ring-2 ring-primary/20 transition-all outline-none appearance-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-500 font-bold text-sm mb-4">End Date & Time</label>
+                  <input 
+                    type="datetime-local"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className="w-full bg-[#f8f9fc] dark:bg-slate-900 border-none rounded-2xl p-5 text-slate-900 dark:text-white font-medium focus:ring-2 ring-primary/20 transition-all outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Sidebar Config */}
+          <div className="lg:col-span-4 space-y-8">
+            <div className="bg-white dark:bg-slate-800 rounded-[32px] p-8 border border-slate-100 dark:border-slate-700 shadow-sm sticky top-24">
+              <p className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-8">Configuration</p>
+              
+              <div className="space-y-8">
+                <div>
+                  <label className="block text-slate-900 dark:text-white font-bold text-sm mb-4">Target Audience Page</label>
+                  <div className="relative">
+                    <select 
+                      value={targetPage}
+                      onChange={(e) => setTargetPage(e.target.value)}
+                      className="w-full bg-[#f8f9fc] dark:bg-slate-900 border-none rounded-2xl p-5 text-slate-900 dark:text-white font-bold appearance-none cursor-pointer pr-12"
+                    >
+                      {pages.map(p => <option key={p.val} value={p.val}>{p.name}</option>)}
+                    </select>
+                    <span className="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">expand_more</span>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-slate-900 dark:text-white font-bold text-sm mb-6">Priority Level</label>
+                  <div className="space-y-2">
+                    {(['Info', 'Success', 'Warning', 'Urgent'] as AnnouncementStyle[]).map((s) => (
+                      <label 
+                        key={s}
+                        className={`flex items-center justify-between p-4 rounded-2xl cursor-pointer border-2 transition-all ${style === s ? 'bg-[#f0f4ff] dark:bg-primary/10 border-primary/20 ring-2 ring-primary/5' : 'bg-[#f8f9fc]/50 dark:bg-slate-900/50 border-transparent hover:border-slate-100'}`}
+                        onClick={() => setStyle(s)}
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${style === s ? 'border-primary' : 'border-slate-300'}`}>
+                            {style === s && <div className="w-2.5 h-2.5 bg-primary rounded-full" />}
+                          </div>
+                          <span className={`text-sm font-bold ${style === s ? 'text-primary' : 'text-slate-600 dark:text-slate-400'}`}>{s}</span>
+                        </div>
+                        <div className={`w-2 h-2 rounded-full ${s === 'Info' ? 'bg-blue-400' : s === 'Success' ? 'bg-green-400' : s === 'Warning' ? 'bg-yellow-400' : 'bg-red-400'}`} />
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between py-2">
+                  <div>
+                    <label className="text-slate-900 dark:text-white font-bold text-sm mb-1 block">Make Sticky</label>
+                    <p className="text-[10px] text-slate-400 font-medium">Stay at top until dismissed</p>
+                  </div>
+                  <button 
+                    onClick={() => setIsSticky(!isSticky)}
+                    className={`w-12 h-6 rounded-full relative transition-all ${isSticky ? 'bg-primary' : 'bg-slate-200 dark:bg-slate-700'}`}
+                  >
+                    <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all shadow-sm ${isSticky ? 'left-7' : 'left-1'}`} />
+                  </button>
+                </div>
+
+                <button 
+                  onClick={() => onPublish('Draft')}
+                  className="w-full py-4 text-slate-400 font-bold border-2 border-slate-100 dark:border-slate-700 rounded-2xl hover:bg-slate-50 transition-all mt-4"
+                >
+                  Save as Draft
+                </button>
+              </div>
+            </div>
+
+            {/* Real-time Preview Area */}
+            <div className="bg-white dark:bg-slate-800 rounded-[32px] p-8 border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden relative">
+              <div className="flex justify-between items-center mb-6">
+                <span className="bg-purple-100 dark:bg-purple-900/30 text-purple-600 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded">Live Preview</span>
+              </div>
+              <div className="flex gap-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-primary text-2xl">notifications</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-slate-900 dark:text-white font-bold leading-tight mb-1 truncate">{title || 'Announcement Title'}</h4>
+                  <p className="text-sm text-slate-400 line-clamp-2 leading-relaxed mb-4">{message || 'Content preview...'}</p>
+                  <div className="text-primary text-sm font-black flex items-center gap-1 group">
+                    {buttonText}
+                    <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_right_alt</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {toast && (
+          <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-8 py-4 rounded-full font-bold shadow-2xl z-[100] animate-bounce">
+            {toast}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-8">
-      <div className="flex justify-between items-center">
+    <div className="max-w-7xl mx-auto space-y-12">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <h4 className="text-xl font-bold text-on-surface">Announcement Center</h4>
-          <p className="text-on-surface-variant text-sm">Manage global banners and notifications</p>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight">Announcement Center</h2>
+          <p className="text-slate-400 mt-2 text-lg">Broadcast updates to your users in style</p>
         </div>
         <button 
-          onClick={() => { setIsCreating(true); resetForm(); }}
-          className="bg-primary text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2"
+          onClick={() => { resetForm(); setIsCreating(true); }}
+          className="w-full md:w-auto px-8 py-4 bg-[#7436c9] text-white font-black rounded-2xl shadow-xl shadow-purple-500/30 flex items-center justify-center gap-3 hover:scale-105 active:scale-95 transition-all"
         >
-          <span className="material-symbols-outlined text-sm">add</span>
+          <span className="material-symbols-outlined">add</span>
           New Announcement
         </button>
       </div>
 
-      {isCreating && (
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="glass-card rounded-xxl p-8 border border-primary/20 bg-primary/5"
-        >
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Title</label>
-                  <input 
-                    required
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className="w-full bg-white px-4 py-3 rounded-xl border border-surface-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                    placeholder="e.g., Summer Launch Sale"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Message</label>
-                  <textarea 
-                    required
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="w-full bg-white px-4 py-3 rounded-xl border border-surface-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all h-24"
-                    placeholder="Describe your announcement..."
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Button Text</label>
-                    <input 
-                      value={buttonText}
-                      onChange={(e) => setButtonText(e.target.value)}
-                      className="w-full bg-white px-4 py-3 rounded-xl border border-surface-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                      placeholder="e.g., View Plans"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Button Link</label>
-                    <input 
-                      value={buttonLink}
-                      onChange={(e) => setButtonLink(e.target.value)}
-                      className="w-full bg-white px-4 py-3 rounded-xl border border-surface-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                      placeholder="e.g., /pricing"
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Target Page</label>
-                    <select 
-                      value={targetPage}
-                      onChange={(e) => setTargetPage(e.target.value)}
-                      className="w-full bg-white px-4 py-3 rounded-xl border border-surface-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all appearance-none"
-                    >
-                      {pages.map(p => <option key={p.val} value={p.val}>{p.name}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Priority</label>
-                    <select 
-                      value={priority}
-                      onChange={(e) => setPriority(e.target.value as AnnouncementPriority)}
-                      className="w-full bg-white px-4 py-3 rounded-xl border border-surface-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all appearance-none"
-                    >
-                      <option value="Normal">Normal</option>
-                      <option value="Important">Important</option>
-                      <option value="Critical">Critical</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div>
-                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Style</label>
-                <div className="flex flex-wrap gap-2">
-                  {(['Info', 'Success', 'Warning', 'Urgent', 'Premium'] as AnnouncementStyle[]).map(s => (
-                    <button
-                      key={s}
-                      type="button"
-                      onClick={() => setStyle(s)}
-                      className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all border ${style === s ? 'ring-2 ring-primary border-transparent' : 'bg-white border-surface-variant'}`}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div className="flex items-end gap-4">
-                <label className="flex items-center gap-2 cursor-pointer pb-3">
-                  <input 
-                    type="checkbox" 
-                    checked={isSticky}
-                    onChange={(e) => setIsSticky(e.target.checked)}
-                    className="w-4 h-4 rounded text-primary focus:ring-primary border-surface-variant"
-                  />
-                  <span className="text-sm font-bold text-on-surface">Sticky Top</span>
-                </label>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Start Date</label>
-                <input 
-                  type="datetime-local"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full bg-white px-4 py-3 rounded-xl border border-surface-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">End Date</label>
-                <input 
-                  type="datetime-local"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full bg-white px-4 py-3 rounded-xl border border-surface-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm"
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-between items-center pt-4 border-t border-surface-variant/30">
-               <div className="flex gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setStatus("Published")}
-                    className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 ${status === 'Published' ? 'bg-tertiary text-white' : 'bg-white text-on-surface-variant border border-surface-variant'}`}
-                  >
-                    <span className="material-symbols-outlined text-sm">public</span>
-                    Publish
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setStatus("Draft")}
-                    className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 ${status === 'Draft' ? 'bg-surface-variant text-on-surface' : 'bg-white text-on-surface-variant border border-surface-variant'}`}
-                  >
-                    <span className="material-symbols-outlined text-sm">drafts</span>
-                    Draft
-                  </button>
-               </div>
-               <div className="flex gap-4">
-                  <button 
-                    type="button" 
-                    onClick={() => setIsCreating(false)}
-                    className="px-6 py-2.5 text-sm font-bold text-on-surface-variant hover:bg-surface-container-low rounded-xl transition-all"
-                  >
-                    Cancel
-                  </button>
-                  <button 
-                    type="submit"
-                    className="px-8 py-2.5 bg-on-surface text-white rounded-xl font-bold text-sm shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
-                  >
-                    {editingId ? 'Save Changes' : 'Create System Notification'}
-                  </button>
-               </div>
-            </div>
-          </form>
-        </motion.div>
-      )}
-
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {announcements.map((a) => (
-          <div key={a.id} className="glass-card rounded-xxl p-6 border border-white/40 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-5 shrink min-w-0">
-               <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${a.style === 'Premium' ? 'bg-gradient-to-br from-[#FF6A88] to-[#A76DFF] text-white' : a.style === 'Urgent' ? 'bg-error-container text-error' : a.style === 'Success' ? 'bg-tertiary-container text-tertiary' : 'bg-surface-container text-outline'}`}>
-                  <span className="material-symbols-outlined">
-                    {a.priority === 'Critical' ? 'notifications_active' : a.priority === 'Important' ? 'priority_high' : 'info'}
-                  </span>
-               </div>
-               <div className="min-w-0">
-                  <h5 className="font-bold text-on-surface flex items-center gap-2 truncate">
-                    {a.title}
-                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-black uppercase tracking-wider ${a.status === 'Published' ? 'bg-tertiary/10 text-tertiary' : 'bg-surface-variant text-on-surface-variant'}`}>
-                      {a.status}
-                    </span>
-                  </h5>
-                  <p className="text-sm text-on-surface-variant truncate max-w-md">{a.message}</p>
-               </div>
+          <motion.div 
+            key={a.id}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white dark:bg-slate-800 rounded-[32px] p-8 border border-slate-100 dark:border-slate-700 shadow-sm relative group hover:border-primary/30 transition-all flex flex-col"
+          >
+            <div className={`absolute top-0 right-0 w-24 h-24 blur-[60px] opacity-20 -mr-12 -mt-12 group-hover:opacity-40 transition-opacity ${a.style === 'Info' ? 'bg-blue-400' : a.style === 'Success' ? 'bg-green-400' : a.style === 'Warning' ? 'bg-yellow-400' : 'bg-red-400'}`} />
+            
+            <div className="flex justify-between items-start mb-6">
+              <span className={`px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider ${a.status === 'Published' ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-500'}`}>
+                {a.status}
+              </span>
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => startEdit(a)} 
+                  className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-900 flex items-center justify-center text-slate-400 hover:text-primary hover:bg-primary/10 transition-all border border-slate-100 dark:border-slate-800"
+                  title="Edit Announcement"
+                >
+                  <span className="material-symbols-outlined text-xl">edit_note</span>
+                </button>
+                <button 
+                  onClick={() => handleDelete(a.id)} 
+                  className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-900 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-500/10 transition-all border border-slate-100 dark:border-slate-800"
+                  title="Delete Announcement"
+                >
+                  <span className="material-symbols-outlined text-xl">delete</span>
+                </button>
+              </div>
             </div>
 
-            <div className="flex items-center gap-8 w-full md:w-auto justify-between md:justify-end">
-               <div className="flex gap-6 text-center">
-                  <div>
-                    <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest mb-1">Views</p>
-                    <p className="font-bold text-on-surface">{a.views.toLocaleString()}</p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest mb-1">CTR</p>
-                    <p className="font-bold text-on-surface">{a.views > 0 ? ((a.clicks / a.views) * 100).toFixed(1) : '0'}%</p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest mb-1">Closes</p>
-                    <p className="font-bold text-on-surface">{a.closes.toLocaleString()}</p>
-                  </div>
-               </div>
-               <div className="flex gap-2">
-                  <button 
-                    onClick={() => startEdit(a)}
-                    className="p-2.5 rounded-xl bg-surface-container-low hover:bg-white transition-all text-on-surface-variant"
-                  >
-                    <span className="material-symbols-outlined text-sm">edit</span>
-                  </button>
-                  <button 
-                    onClick={() => handleDelete(a.id)}
-                    className="p-2.5 rounded-xl bg-surface-container-low hover:bg-error/10 hover:text-error transition-all text-on-surface-variant"
-                  >
-                    <span className="material-symbols-outlined text-sm">delete</span>
-                  </button>
-               </div>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 line-clamp-2 leading-tight">{a.title}</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed line-clamp-3 mb-8">{a.message}</p>
+            
+            <div className="mt-auto grid grid-cols-3 gap-4 border-t border-slate-100 dark:border-slate-700 pt-6">
+              <div className="text-center">
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Views</p>
+                <p className="text-sm font-bold text-slate-900 dark:text-white">{a.views.toLocaleString()}</p>
+              </div>
+              <div className="text-center">
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Clicks</p>
+                <p className="text-sm font-bold text-slate-900 dark:text-white">{a.clicks.toLocaleString()}</p>
+              </div>
+              <div className="text-center">
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">CTR</p>
+                <p className="text-sm font-bold text-slate-900 dark:text-white">{a.views > 0 ? ((a.clicks / a.views) * 100).toFixed(1) : '0'}%</p>
+              </div>
             </div>
-          </div>
+          </motion.div>
         ))}
+
         {announcements.length === 0 && !isCreating && (
-          <div className="text-center py-12 glass-card rounded-xxl border-dashed border-2 border-surface-variant">
-            <span className="material-symbols-outlined text-4xl text-on-surface-variant/30 mb-3 block">campaign</span>
-            <p className="text-on-surface-variant font-medium">No announcements published yet</p>
+          <div className="col-span-full py-32 bg-slate-50/50 dark:bg-slate-900/50 rounded-[40px] border-2 border-dashed border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center text-center">
+            <div className="w-20 h-20 bg-white dark:bg-slate-800 rounded-3xl shadow-sm flex items-center justify-center mb-8">
+              <span className="material-symbols-outlined text-4xl text-slate-300">campaign</span>
+            </div>
+            <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Voice of Sruvo is quiet</h4>
+            <p className="text-slate-400 max-w-sm mb-10">Start communicating updates and important announcements directly to your audience.</p>
             <button 
-               onClick={() => setIsCreating(true)}
-               className="mt-4 text-primary font-bold text-sm hover:underline"
+              onClick={() => setIsCreating(true)}
+              className="text-primary font-black uppercase tracking-widest text-xs hover:underline underline-offset-8"
             >
-              Create your first campaign
+              Launch First Campaign
             </button>
           </div>
         )}
       </div>
+      {toast && (
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-8 py-4 rounded-full font-bold shadow-2xl z-[100] animate-bounce">
+          {toast}
+        </div>
+      )}
     </div>
   );
 }
+

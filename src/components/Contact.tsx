@@ -5,6 +5,7 @@
 
 import { motion } from "motion/react";
 import React, { useState } from "react";
+import { analytics } from "../lib/analytics";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -41,6 +42,7 @@ export default function Contact() {
       });
 
       if (response.ok) {
+        analytics.trackSignup(formData.email);
         setStatus('success');
         setFormData({ name: "", email: "", subject: "", message: "" });
         setTimeout(() => setStatus('idle'), 5000);

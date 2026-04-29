@@ -95,6 +95,8 @@ class AnalyticsService {
 
   public trackPageView(path: string) {
     this.currentPath = path;
+    if (path === '/traffic') return;
+
     const visits = this.getVisits();
     const isNewVisitor = !visits.some(v => v.visitorId === this.visitorId);
 

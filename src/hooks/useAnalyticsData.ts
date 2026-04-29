@@ -8,7 +8,7 @@ import { analytics, Visit, SignupEvent } from '../lib/analytics';
 
 export type TimeFilter = 'Today' | '7D' | '30D' | 'Custom';
 
-export function useAnalyticsData(filter: TimeFilter = '30D') {
+export function useAnalyticsData(filter: TimeFilter = '30D', customRange?: { start: string; end: string }) {
   const [data, setData] = useState<{
     visits: Visit[];
     signups: SignupEvent[];
@@ -43,6 +43,7 @@ export function useAnalyticsData(filter: TimeFilter = '30D') {
   const filteredData = useMemo(() => {
     const now = Date.now();
     let startTime = 0;
+    let endTime = now;
 
     switch (filter) {
       case 'Today':
@@ -51,14 +52,18 @@ export function useAnalyticsData(filter: TimeFilter = '30D') {
       case '7D':
         startTime = now - (7 * 24 * 60 * 60 * 1000);
         break;
+      case 'Custom':
+        if (customRange?.start) startTime = new Date(customRange.start).getTime();
+        if (customRange?.end) endTime = new Date(customRange.end).getTime();
+        break;
       case '30D':
       default:
         startTime = now - (30 * 24 * 60 * 60 * 1000);
         break;
     }
 
-    const filteredVisits = data.visits.filter(v => v.timestamp >= startTime);
-    const filteredSignups = data.signups.filter(s => s.timestamp >= startTime);
+    const filteredVisits = data.visits.filter(v => v.timestamp >= startTime && v.timestamp <= endTime);
+    const filteredSignups = data.signups.filter(s => s.timestamp >= startTime && s.timestamp <= endTime);
 
     // Grouping for charts
     const dailyMap = new Map<string, number>();
