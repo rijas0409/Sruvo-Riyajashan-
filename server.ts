@@ -55,7 +55,7 @@ app.post("/api/send-welcome-email", async (req, res) => {
     });
 
     const mailOptions = {
-      from: `"Sruvo" <${user}>`,
+      from: `"Sruvo" <noreply.sruvo@gmail.com>`,
       sender: user,
       to: email,
       subject: "You’re In — Sruvo Early Access Confirmed",
@@ -211,16 +211,6 @@ app.post("/api/send-welcome-email", async (req, res) => {
     <p style="margin-top:25px;">
       Stay tuned — something amazing is coming your way 🚀
     </p>
-
-    <div style="margin-top: 35px; border-top: 1px solid #eee; padding-top: 25px; display: flex; align-items: center; justify-content: center; gap: 15px;">
-      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3S7ZXGVoZ8QLJ7UyDxufKyhZoMqIjWShfzOK94nzal2uPyN88SSnwGVJHm3KhGuKMW2qo1zUttjeLxx0FplOct9MsBvOSXm2Re0gCxk81uXyVtn9A15U_y-q_sgdJOIagEjL26NUed2tdLZJDwYSpclHxGa6y7BxgJ7_OCtoZ9IjD9dDxZA3Pjl10zOe6hOJOuDQJjkNsn_FUMkg4roz_-I6TsJRlUnLF9GdiH4pOOem51zSoNkeQDbhIkNMAWv-XpmIhdyzF9ZA" 
-           style="width: 50px; height: 50px; border-radius: 50%; border: 3px solid #fff; shadow: 0 5px 15px rgba(0,0,0,0.08);" 
-           alt="Jashanpreet Singh Pabla">
-      <div style="text-align: left;">
-        <div style="font-weight: 800; color: #1a1a1a; font-size: 14px;">Jashanpreet Singh Pabla</div>
-        <div style="font-size: 11px; color: #7a5cff; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Founder & CEO</div>
-      </div>
-    </div>
   </div>
 
   <div class="footer">
@@ -276,13 +266,13 @@ app.post("/api/send-welcome-email", async (req, res) => {
     try {
       // Send both emails in parallel to save time and avoid timeouts
       await Promise.all([
-        // 1. Send notification to admin (noreply.sruvo@gmail.com)
+        // 1. Send notification to admin (thesruvo@gmail.com)
         transporter.sendMail({
           from: `"${name}" <${user}>`,
-          to: "noreply.sruvo@gmail.com", // Dedicated admin inbox
+          to: "thesruvo@gmail.com", // Dedicated admin inbox
           envelope: {
             from: user,
-            to: ["noreply.sruvo@gmail.com"] 
+            to: ["thesruvo@gmail.com"] 
           },
           replyTo: email,
           subject: `[SUPPORT-REQUEST] New Contact Form: ${subject}`,
@@ -360,7 +350,7 @@ app.post("/api/send-welcome-email", async (req, res) => {
         }),
         // 2. Send automated response to the user
         transporter.sendMail({
-          from: `"Sruvo Support" <${user}>`,
+          from: `"Sruvo Support" <noreply.sruvo@gmail.com>`,
           to: email,
           subject: "We’ve Received Your Message — Sruvo Support",
           html: `
@@ -390,16 +380,6 @@ app.post("/api/send-welcome-email", async (req, res) => {
     <p>Hi ${name},</p>
     <p>Thank you for reaching out to <b>Sruvo</b>. We’ve successfully received your request regarding "<b>${subject}</b>".</p>
     <p>Our support team will connect with you within <b>24–48 hours</b>.</p>
-    
-    <div style="margin-top: 30px; border-top: 1px solid #eee; pt-20; display: flex; align-items: center; justify-content: center; gap: 12px; padding-top: 20px;">
-      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3S7ZXGVoZ8QLJ7UyDxufKyhZoMqIjWShfzOK94nzal2uPyN88SSnwGVJHm3KhGuKMW2qo1zUttjeLxx0FplOct9MsBvOSXm2Re0gCxk81uXyVtn9A15U_y-q_sgdJOIagEjL26NUed2tdLZJDwYSpclHxGa6y7BxgJ7_OCtoZ9IjD9dDxZA3Pjl10zOe6hOJOuDQJjkNsn_FUMkg4roz_-I6TsJRlUnLF9GdiH4pOOem51zSoNkeQDbhIkNMAWv-XpmIhdyzF9ZA" 
-           style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" 
-           alt="Jashanpreet Singh Pabla">
-      <div style="text-align: left;">
-        <div style="font-weight: bold; color: #222; font-size: 13px;">Jashanpreet Singh Pabla</div>
-        <div style="font-size: 11px; color: #888;">Founder, Sruvo</div>
-      </div>
-    </div>
   </div>
   <div class="footer">
     © 2026 Sruvo • Built with care for pets & their people  
@@ -444,7 +424,7 @@ app.post("/api/send-partner-email", async (req, res) => {
     });
 
     const mailOptions = {
-      from: `"Sruvo" <${user}>`,
+      from: `"Sruvo" <noreply.sruvo@gmail.com>`,
       to: email,
       subject: "We’ve Received Your Veterinary Partner Application",
       html: `
@@ -623,16 +603,6 @@ app.post("/api/send-partner-email", async (req, res) => {
 
           <div class="btn-container">
             <a href="https://sruvo.com/how-it-works" class="button">Explore the Platform</a>
-          </div>
-
-          <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: center; gap: 15px;">
-            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3S7ZXGVoZ8QLJ7UyDxufKyhZoMqIjWShfzOK94nzal2uPyN88SSnwGVJHm3KhGuKMW2qo1zUttjeLxx0FplOct9MsBvOSXm2Re0gCxk81uXyVtn9A15U_y-q_sgdJOIagEjL26NUed2tdLZJDwYSpclHxGa6y7BxgJ7_OCtoZ9IjD9dDxZA3Pjl10zOe6hOJOuDQJjkNsn_FUMkg4roz_-I6TsJRlUnLF9GdiH4pOOem51zSoNkeQDbhIkNMAWv-XpmIhdyzF9ZA" 
-                 style="width: 50px; height: 50px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1);" 
-                 alt="Jashanpreet Singh Pabla">
-            <div style="text-align: left;">
-              <div style="font-weight: 800; color: #1a1a1a; font-size: 14px;">Jashanpreet Singh Pabla</div>
-              <div style="font-size: 12px; color: #7a5cff; font-weight: 600;">Founder • Sruvo</div>
-            </div>
           </div>
 
           <p style="margin-top: 32px; font-size: 14px; color: #888;">We appreciate your interest in building a better future for pet care with us 🐾</p>
