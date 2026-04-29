@@ -206,7 +206,7 @@ app.post("/api/send-welcome-email", async (req, res) => {
       You'll be among the first to explore our platform.
     </p>
 
-    <a href="https://sruvo.com" class="button">Check Your Status</a>
+    <a href="https://www.sruvo.vercel.app" class="button">Check Your Status</a>
 
     <p style="margin-top:25px;">
       Stay tuned — something amazing is coming your way 🚀

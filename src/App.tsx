@@ -4,23 +4,34 @@
  */
 
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import Home from "./pages/Home";
-import HowItWorks from "./components/HowItWorks";
-import Features from "./components/Features";
-import ForVets from "./components/ForVets";
+import { useState, useEffect, lazy, Suspense } from "react";
+
+// Lazy load pages and non-essential components
+const Home = lazy(() => import("./pages/Home"));
+const TrafficDashboard = lazy(() => import("./pages/TrafficDashboard"));
+const PressKit = lazy(() => import("./pages/PressKit"));
+const HowItWorks = lazy(() => import("./components/HowItWorks"));
+const Features = lazy(() => import("./components/Features"));
+const ForVets = lazy(() => import("./components/ForVets"));
+const EarlyAccess = lazy(() => import("./components/EarlyAccess"));
+const Contact = lazy(() => import("./components/Contact"));
+const PrivacyPolicy = lazy(() => import("./components/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./components/TermsOfService"));
+const BecomePartner = lazy(() => import("./components/BecomePartner"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
 import Navbar from "./components/Navbar";
 import BottomLayout from "./components/BottomLayout";
-import EarlyAccess from "./components/EarlyAccess";
-import Contact from "./components/Contact";
-import PrivacyPolicy from "./components/PrivacyPolicy";
-import TermsOfService from "./components/TermsOfService";
-import BecomePartner from "./components/BecomePartner";
-import PressKit from "./pages/PressKit";
-import TrafficDashboard from "./pages/TrafficDashboard";
-import NotFound from "./pages/NotFound";
 import AnnouncementBanner from "./components/AnnouncementBanner";
 import { analytics } from "./lib/analytics";
+
+function PageLoader() {
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-white/50 backdrop-blur-sm z-50">
+      <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
+}
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -63,20 +74,22 @@ function AppContent() {
           setIsMenuOpen={setIsMenuOpen}
         />
       )}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/how-it-works" element={<HowItWorks />} />
-        <Route path="/features" element={<Features />} />
-        <Route path="/for-vets" element={<ForVets />} />
-        <Route path="/early-access" element={<EarlyAccess />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-of-service" element={<TermsOfService />} />
-        <Route path="/become-partner" element={<BecomePartner />} />
-        <Route path="/press-kit" element={<PressKit />} />
-        <Route path="/traffic" element={<TrafficDashboard />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/for-vets" element={<ForVets />} />
+          <Route path="/early-access" element={<EarlyAccess />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/become-partner" element={<BecomePartner />} />
+          <Route path="/press-kit" element={<PressKit />} />
+          <Route path="/traffic" element={<TrafficDashboard />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
       {!isEarlyAccess && !isTrafficPage && !isNotFound && <BottomLayout />}
     </div>
   );

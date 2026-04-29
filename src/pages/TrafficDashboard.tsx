@@ -5,7 +5,9 @@
 
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router-dom";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback, memo } from "react";
+
+type DashboardView = 'overview' | 'announcements' | 'audience' | 'settings';
 import { 
   BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, 
   PieChart, Pie, Cell 
@@ -13,7 +15,92 @@ import {
 import { useAnalyticsData, TimeFilter } from "../hooks/useAnalyticsData";
 import AnnouncementManager from "../components/AnnouncementManager";
 
-type DashboardView = 'overview' | 'announcements' | 'audience' | 'settings';
+// Memoized Sub-components for better performance
+const MetricCard = memo(({ 
+  title, 
+  value, 
+  change, 
+  icon, 
+  color, 
+  isActive, 
+  onClick 
+}: { 
+  title: string; 
+  value: string | number; 
+  change: string; 
+  icon: string; 
+  color: string; 
+  isActive?: boolean;
+  onClick?: () => void;
+}) => (
+  <motion.div 
+    whileHover={{ y: -8 }}
+    onClick={onClick}
+    className={`glass-card rounded-xxl p-6 relative overflow-hidden group shadow-sm hover:shadow-xl transition-all cursor-pointer border-2 ${isActive ? `border-${color}/50 bg-${color}/5` : 'border-transparent'}`}
+    style={isActive ? { borderColor: `${color}40`, backgroundColor: `${color}08` } : {}}
+  >
+    <div className="absolute -right-4 -top-4 w-24 h-24 rounded-full blur-2xl group-hover:opacity-100 opacity-50 transition-all" style={{ backgroundColor: `${color}15` }} />
+    <div className="flex justify-between items-start mb-4">
+      <div className="p-2.5 rounded-xl" style={{ backgroundColor: `${color}15` }}>
+        <span className="material-symbols-outlined" style={{ color }}>{icon}</span>
+      </div>
+      <span className="text-tertiary text-xs font-bold flex items-center gap-1">
+        <span className="material-symbols-outlined text-sm">arrow_upward</span>
+        {change}
+      </span>
+    </div>
+    <p className="text-on-surface-variant text-sm font-medium">{title}</p>
+    <h3 className="text-3xl font-bold text-on-surface mt-1">{value}</h3>
+  </motion.div>
+));
+
+const TrendsChart = memo(({ data, color }: { data: any[], color: string }) => (
+  <div className="h-64 flex items-end gap-2 px-4 relative">
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart data={data}>
+        <XAxis dataKey="date" hide />
+        <Tooltip 
+          contentStyle={{ 
+            backgroundColor: '#2d2e34', 
+            border: 'none', 
+            borderRadius: '8px', 
+            color: 'white',
+            fontSize: '10px'
+          }}
+          itemStyle={{ color: 'white' }}
+          cursor={{ fill: 'rgba(116, 54, 201, 0.05)' }}
+        />
+        <Bar 
+          dataKey="count" 
+          fill={color} 
+          radius={[4, 4, 0, 0]}
+        />
+      </BarChart>
+    </ResponsiveContainer>
+  </div>
+));
+
+const SidebarLink = memo(({ 
+  active, 
+  collapsed, 
+  onClick, 
+  icon, 
+  label 
+}: { 
+  active: boolean; 
+  collapsed: boolean; 
+  onClick: () => void; 
+  icon: string; 
+  label: string; 
+}) => (
+  <button 
+    onClick={onClick}
+    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all scale-95 active:scale-90 ${active ? 'text-primary dark:text-purple-300 font-bold border-r-4 border-[#A76DFF] bg-purple-50/50' : 'text-on-surface-variant hover:text-primary transition-colors hover:bg-white/50 hover:translate-x-1'}`}
+  >
+    <span className="material-symbols-outlined">{icon}</span>
+    {!collapsed && <span>{label}</span>}
+  </button>
+));
 
 export default function TrafficDashboard() {
   const [filter, setFilter] = useState<TimeFilter>('30D');
@@ -41,21 +128,21 @@ export default function TrafficDashboard() {
     return recentSignups.filter(s => s.email.toLowerCase().includes(searchQuery.toLowerCase()));
   }, [recentSignups, searchQuery]);
 
-  const handleRefresh = () => {
+  const handleRefresh = useCallback(() => {
     setIsRefreshing(true);
     setTimeout(() => setIsRefreshing(false), 800);
-  };
+  }, []);
 
-  const colors = {
+  const colors = useMemo(() => ({
     primary: "#7436c9",
     secondary: "#a9294a",
     tertiary: "#006858",
     accent1: "#A76DFF",
     accent2: "#FF6A88",
     accent3: "#2ED3B7",
-  };
+  }), []);
 
-  const exportCSV = () => {
+  const exportCSV = useCallback(() => {
     const headers = ["Metric", "Value"];
     const rows = [
       ["Total Visitors", stats.totalVisitors],
@@ -78,7 +165,7 @@ export default function TrafficDashboard() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
+  }, [stats]);
 
   const insights = useMemo(() => {
     const list = [];
@@ -123,41 +210,41 @@ export default function TrafficDashboard() {
           </button>
         </div>
         <nav className="flex-1 space-y-2">
-          <button 
-            onClick={() => setCurrentView('overview')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all scale-95 active:scale-90 ${currentView === 'overview' ? 'text-primary dark:text-purple-300 font-bold border-r-4 border-[#A76DFF] bg-purple-50/50' : 'text-on-surface-variant hover:text-primary transition-colors hover:bg-white/50 hover:translate-x-1'}`}
-          >
-            <span className="material-symbols-outlined">dashboard</span>
-            {!isSidebarCollapsed && <span>Overview</span>}
-          </button>
-          <button 
-            onClick={() => setCurrentView('announcements')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all scale-95 active:scale-90 ${currentView === 'announcements' ? 'text-primary dark:text-purple-300 font-bold border-r-4 border-[#A76DFF] bg-purple-50/50' : 'text-on-surface-variant hover:text-primary transition-colors hover:bg-white/50 hover:translate-x-1'}`}
-          >
-            <span className="material-symbols-outlined">campaign</span>
-            {!isSidebarCollapsed && <span>Announcements</span>}
-          </button>
-          <button 
-            onClick={() => setCurrentView('audience')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all scale-95 active:scale-90 ${currentView === 'audience' ? 'text-primary dark:text-purple-300 font-bold border-r-4 border-[#A76DFF] bg-purple-50/50' : 'text-on-surface-variant hover:text-primary transition-colors hover:bg-white/50 hover:translate-x-1'}`}
-          >
-            <span className="material-symbols-outlined">group</span>
-            {!isSidebarCollapsed && <span>Audience</span>}
-          </button>
-          <button 
-            onClick={() => setCurrentView('overview')}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all scale-95 active:scale-90 text-on-surface-variant hover:text-primary transition-colors hover:bg-white/50 hover:translate-x-1 duration-200"
-          >
-            <span className="material-symbols-outlined">sensors</span>
-            {!isSidebarCollapsed && <span>Live Traffic</span>}
-          </button>
-          <button 
-            onClick={() => setCurrentView('settings')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all scale-95 active:scale-90 ${currentView === 'settings' ? 'text-primary dark:text-purple-300 font-bold border-r-4 border-[#A76DFF] bg-purple-50/50' : 'text-on-surface-variant hover:text-primary transition-colors hover:bg-white/50 hover:translate-x-1'}`}
-          >
-            <span className="material-symbols-outlined">settings</span>
-            {!isSidebarCollapsed && <span>Settings</span>}
-          </button>
+          <SidebarLink 
+            active={currentView === 'overview'} 
+            collapsed={isSidebarCollapsed} 
+            onClick={() => setCurrentView('overview')} 
+            icon="dashboard" 
+            label="Overview" 
+          />
+          <SidebarLink 
+            active={currentView === 'announcements'} 
+            collapsed={isSidebarCollapsed} 
+            onClick={() => setCurrentView('announcements')} 
+            icon="campaign" 
+            label="Announcements" 
+          />
+          <SidebarLink 
+            active={currentView === 'audience'} 
+            collapsed={isSidebarCollapsed} 
+            onClick={() => setCurrentView('audience')} 
+            icon="group" 
+            label="Audience" 
+          />
+          <SidebarLink 
+            active={false} 
+            collapsed={isSidebarCollapsed} 
+            onClick={() => { setCurrentView('overview'); handleRefresh(); }} 
+            icon="sensors" 
+            label="Live Traffic" 
+          />
+          <SidebarLink 
+            active={currentView === 'settings'} 
+            collapsed={isSidebarCollapsed} 
+            onClick={() => setCurrentView('settings')} 
+            icon="settings" 
+            label="Settings" 
+          />
         </nav>
         <div className="mt-auto pt-6 border-t border-surface-variant/30 px-2">
           <button 
@@ -299,67 +386,35 @@ export default function TrafficDashboard() {
 
                 {/* Metrics Bento Grid */}
                 <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {/* Metrics Card 1 */}
-                  <motion.div 
-                    whileHover={{ y: -8 }}
-                    onClick={() => setActiveMetric("Visitors")}
-                    className={`glass-card rounded-xxl p-6 relative overflow-hidden group shadow-sm hover:shadow-xl transition-all cursor-pointer border-2 ${activeMetric === 'Visitors' ? 'border-primary/50 bg-primary/5' : 'border-transparent'}`}
-                  >
-                    <div className="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all" />
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="p-2.5 bg-primary/10 rounded-xl">
-                        <span className="material-symbols-outlined text-primary">visibility</span>
-                      </div>
-                      <span className="text-tertiary text-xs font-bold flex items-center gap-1">
-                        <span className="material-symbols-outlined text-sm">arrow_upward</span>
-                        12.5%
-                      </span>
-                    </div>
-                    <p className="text-on-surface-variant text-sm font-medium">Total Visitors</p>
-                    <h3 className="text-3xl font-bold text-on-surface mt-1">{stats.totalVisitors.toLocaleString()}</h3>
-                  </motion.div>
-
-                  {/* Metrics Card 2 */}
-                  <motion.div 
-                    whileHover={{ y: -8 }}
-                    onClick={() => setActiveMetric("Signups")}
-                    className={`glass-card rounded-xxl p-6 relative overflow-hidden group shadow-sm hover:shadow-xl transition-all cursor-pointer border-2 ${activeMetric === 'Signups' ? 'border-tertiary/50 bg-tertiary/5' : 'border-transparent'}`}
-                  >
-                    <div className="absolute -right-4 -top-4 w-24 h-24 bg-tertiary/5 rounded-full blur-2xl group-hover:bg-tertiary/10 transition-all" />
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="p-2.5 bg-tertiary/10 rounded-xl">
-                        <span className="material-symbols-outlined text-tertiary">person_add</span>
-                      </div>
-                      <span className="text-tertiary text-xs font-bold flex items-center gap-1">
-                        <span className="material-symbols-outlined text-sm">arrow_upward</span>
-                        8.2%
-                      </span>
-                    </div>
-                    <p className="text-on-surface-variant text-sm font-medium">Early Access Signups</p>
-                    <h3 className="text-3xl font-bold text-on-surface mt-1">{stats.totalSignups.toLocaleString()}</h3>
-                  </motion.div>
-
-                  {/* Metrics Card 3 */}
-                  <motion.div 
-                    whileHover={{ y: -8 }}
-                    onClick={() => setActiveMetric("Conversion")}
-                    className={`glass-card rounded-xxl p-6 relative overflow-hidden group shadow-sm hover:shadow-xl transition-all cursor-pointer border-2 ${activeMetric === 'Conversion' ? 'border-secondary/50 bg-secondary/5' : 'border-transparent'}`}
-                  >
-                    <div className="absolute -right-4 -top-4 w-24 h-24 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-all" />
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="p-2.5 bg-secondary/10 rounded-xl">
-                        <span className="material-symbols-outlined text-secondary">ads_click</span>
-                      </div>
-                      <span className="text-tertiary text-xs font-bold flex items-center gap-1">
-                        <span className="material-symbols-outlined text-sm">arrow_upward</span>
-                        3.4%
-                      </span>
-                    </div>
-                    <p className="text-on-surface-variant text-sm font-medium">Conversion Rate</p>
-                    <h3 className="text-3xl font-bold text-on-surface mt-1">{stats.conversionRate.toFixed(2)}%</h3>
-                  </motion.div>
-
-                  {/* Metrics Card 4 */}
+                  <MetricCard 
+                    title="Total Visitors" 
+                    value={stats.totalVisitors.toLocaleString()} 
+                    change="12.5%" 
+                    icon="visibility" 
+                    color={colors.primary} 
+                    isActive={activeMetric === 'Visitors'} 
+                    onClick={() => setActiveMetric("Visitors")} 
+                  />
+                  <MetricCard 
+                    title="Early Access Signups" 
+                    value={stats.totalSignups.toLocaleString()} 
+                    change="8.2%" 
+                    icon="person_add" 
+                    color={colors.tertiary} 
+                    isActive={activeMetric === 'Signups'} 
+                    onClick={() => setActiveMetric("Signups")} 
+                  />
+                  <MetricCard 
+                    title="Conversion Rate" 
+                    value={`${stats.conversionRate.toFixed(2)}%`} 
+                    change="3.4%" 
+                    icon="ads_click" 
+                    color={colors.secondary} 
+                    isActive={activeMetric === 'Conversion'} 
+                    onClick={() => setActiveMetric("Conversion")} 
+                  />
+                  
+                  {/* Live Visitors Card - Keep specialized for animation */}
                   <motion.div 
                     whileHover={{ y: -8 }}
                     className="glass-card rounded-xxl p-6 bg-gradient-to-br from-primary to-[#A76DFF] relative overflow-hidden group shadow-lg"
@@ -400,36 +455,14 @@ export default function TrafficDashboard() {
                         <p className="text-on-surface-variant text-sm">Engagement metrics for {filter === 'Today' ? 'last 24h' : filter === '7D' ? 'last 7 days' : 'last 30 days'}</p>
                       </div>
                       <button 
-                        onClick={() => setShowDetailedView(true)}
+                         onClick={() => setShowDetailedView(true)}
                         className="text-primary text-sm font-bold flex items-center gap-1 hover:underline"
                       >
                         Detailed View <span className="material-symbols-outlined text-sm">open_in_new</span>
                       </button>
                     </div>
                     
-                    <div className="h-64 flex items-end gap-2 px-4 relative">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={visitorTrends}>
-                          <XAxis dataKey="date" hide />
-                          <Tooltip 
-                            contentStyle={{ 
-                              backgroundColor: '#2d2e34', 
-                              border: 'none', 
-                              borderRadius: '8px', 
-                              color: 'white',
-                              fontSize: '10px'
-                            }}
-                            itemStyle={{ color: 'white' }}
-                            cursor={{ fill: 'rgba(116, 54, 201, 0.05)' }}
-                          />
-                          <Bar 
-                            dataKey="count" 
-                            fill={colors.primary} 
-                            radius={[4, 4, 0, 0]}
-                          />
-                        </BarChart>
-                      </ResponsiveContainer>
-                    </div>
+                    <TrendsChart data={visitorTrends} color={colors.primary} />
                   </div>
 
                   <div className="flex flex-col gap-6">

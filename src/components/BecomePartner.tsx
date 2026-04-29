@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, ShieldCheck, Lock, Users, Loader2, X } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import { analytics } from "../lib/analytics";
 
 export default function BecomePartner() {
   const [showManualExperience, setShowManualExperience] = useState(false);
@@ -77,6 +78,9 @@ export default function BecomePartner() {
         ]);
 
       if (supabaseError) throw supabaseError;
+      
+      // Track Signup in Analytics
+      analytics.trackSignup(formData.email);
 
       // 2. Send Confirmation Email
       try {

@@ -29,8 +29,15 @@ export function useAnalyticsData(filter: TimeFilter = '30D') {
     };
 
     load();
-    const interval = setInterval(load, 5000); // refresh every 5s for dashboard feel
-    return () => clearInterval(interval);
+    const interval = setInterval(load, 2000); // refresh every 2s for dashboard feel
+    
+    // Listen for storage changes from other tabs
+    window.addEventListener('storage', load);
+    
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('storage', load);
+    };
   }, []);
 
   const filteredData = useMemo(() => {
@@ -55,8 +62,16 @@ export function useAnalyticsData(filter: TimeFilter = '30D') {
 
     // Grouping for charts
     const dailyMap = new Map<string, number>();
+    const dateCache = new Map<number, string>();
+
     filteredVisits.forEach(v => {
-      const date = new Date(v.timestamp).toLocaleDateString();
+      // Use date cache to avoid expensive toLocaleDateString called repeatedly for same day
+      const dayStart = new Date(v.timestamp).setHours(0, 0, 0, 0);
+      let date = dateCache.get(dayStart);
+      if (!date) {
+        date = new Date(dayStart).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        dateCache.set(dayStart, date);
+      }
       dailyMap.set(date, (dailyMap.get(date) || 0) + 1);
     });
 

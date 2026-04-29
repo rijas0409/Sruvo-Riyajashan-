@@ -48,7 +48,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     <h1>The Future of <span class="highlight">Pet Care</span> is Here 🐾</h1>
     <p>Hi ${name}, we’ve successfully received your request for <span class="highlight">Sruvo Early Access</span>.</p>
     <p>You're now part of an exclusive community shaping the future of modern pet care.</p>
-    <a href="https://sruvo.com" class="button">Check Your Status</a>
+    <a href="https://www.sruvo.vercel.app" class="button">Check Your Status</a>
   </div>
 </div>
 </body>

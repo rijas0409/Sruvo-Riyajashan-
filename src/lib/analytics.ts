@@ -36,11 +36,21 @@ class AnalyticsService {
   private visitorId: string;
   private currentPath: string = window.location.pathname;
   private lastHeartbeat: number = Date.now();
+  private visitsCache: Visit[] | null = null;
+  private signupsCache: SignupEvent[] | null = null;
 
   constructor() {
     this.sessionId = Math.random().toString(36).substring(2, 15);
     this.visitorId = this.getOrCreateVisitorId();
     this.initHeartbeat();
+    this.setupStorageListener();
+  }
+
+  private setupStorageListener() {
+    window.addEventListener('storage', (e) => {
+      if (e.key === STORAGE_KEY_VISITS) this.visitsCache = null;
+      if (e.key === STORAGE_KEY_SIGNUPS) this.signupsCache = null;
+    });
   }
 
   private getOrCreateVisitorId(): string {
@@ -137,21 +147,27 @@ class AnalyticsService {
 
   public getVisits(): Visit[] {
     const data = localStorage.getItem(STORAGE_KEY_VISITS);
-    return data ? JSON.parse(data) : [];
+    const visits = data ? JSON.parse(data) : [];
+    this.visitsCache = visits;
+    return visits;
   }
 
   private saveVisits(visits: Visit[]) {
     // Keep only last 1000 to avoid storage issues
     if (visits.length > 1000) visits = visits.slice(-1000);
+    this.visitsCache = visits;
     localStorage.setItem(STORAGE_KEY_VISITS, JSON.stringify(visits));
   }
 
   public getSignups(): SignupEvent[] {
     const data = localStorage.getItem(STORAGE_KEY_SIGNUPS);
-    return data ? JSON.parse(data) : [];
+    const signups = data ? JSON.parse(data) : [];
+    this.signupsCache = signups;
+    return signups;
   }
 
   private saveSignups(signups: SignupEvent[]) {
+    this.signupsCache = signups;
     localStorage.setItem(STORAGE_KEY_SIGNUPS, JSON.stringify(signups));
   }
 
