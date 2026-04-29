@@ -302,7 +302,7 @@ export default function TermsOfService() {
                     <h2 className="text-2xl font-headline font-bold text-on-surface">Terms Update & CONTACT</h2>
                     <p className="text-on-surface-variant leading-relaxed text-lg">
                       Sruvo reserves the right to update or modify these Terms at any time. Continued use of the Platform after changes constitutes acceptance of the revised Terms.<br/><br/>
-                      If you have any queries relating to the processing/ usage of information provided by you or regarding Sruvo's Terms of Services, you may email the Data Protection Officer (DPO) at <a className="text-primary font-semibold" href="mailto:thesruvo@gmail.com">thesruvo@gmail.com</a>.
+                      If you have any queries relating to the processing/ usage of information provided by you or regarding Sruvo's Terms of Services, you may email the Data Protection Officer (DPO) at <a className="text-primary font-semibold" href="mailto:noreply.sruvo@gmail.com">noreply.sruvo@gmail.com</a>.
                     </p>
                   </div>
                 </div>

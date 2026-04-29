@@ -211,8 +211,8 @@ export default function PressKit() {
                 For interview requests, deeper data insights, or collaboration opportunities, our press team is ready to assist.
               </p>
               <div className="relative z-10 flex justify-center">
-                <a className="inline-flex items-center gap-2 md:gap-4 bg-white text-primary px-6 md:px-10 py-4 md:py-5 rounded-full font-headline font-bold text-sm md:text-xl hover:scale-105 transition-transform shadow-xl w-full sm:w-auto overflow-hidden text-ellipsis whitespace-nowrap justify-center" href="mailto:thesruvo@gmail.com">
-                  <span className="truncate">thesruvo@gmail.com</span>
+                <a className="inline-flex items-center gap-2 md:gap-4 bg-white text-primary px-6 md:px-10 py-4 md:py-5 rounded-full font-headline font-bold text-sm md:text-xl hover:scale-105 transition-transform shadow-xl w-full sm:w-auto overflow-hidden text-ellipsis whitespace-nowrap justify-center" href="mailto:noreply.sruvo@gmail.com">
+                  <span className="truncate">noreply.sruvo@gmail.com</span>
                   <span className="material-symbols-outlined shrink-0">mail</span>
                 </a>
               </div>

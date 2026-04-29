@@ -94,7 +94,7 @@ export default function EarlyAccess() {
       if (checkError) throw checkError;
 
       if (existingUser) {
-        setError('This email ID is already registered. Please contact support at thesruvo@gmail.com if you need assistance.');
+        setError('This email ID is already registered. Please contact support at noreply.sruvo@gmail.com if you need assistance.');
         setIsLoading(false);
         return;
       }

@@ -242,7 +242,7 @@ export default function PrivacyPolicy() {
                       <li>Request deletion of their data</li>
                       <li>Withdraw consent where applicable</li>
                     </ul>
-                    <p className="text-on-surface-variant">Requests can be made via: <a className="text-primary font-semibold" href="mailto:thesruvo@gmail.com">thesruvo@gmail.com</a></p>
+                    <p className="text-on-surface-variant">Requests can be made via: <a className="text-primary font-semibold" href="mailto:noreply.sruvo@gmail.com">noreply.sruvo@gmail.com</a></p>
                   </div>
                 </div>
               </section>
@@ -270,7 +270,7 @@ export default function PrivacyPolicy() {
                     <h2 className="text-2xl font-headline font-bold text-on-surface">Policy Updates & Contact</h2>
                     <p className="text-on-surface-variant leading-relaxed text-lg">
                       We may update this policy periodically. Continued use of the platform constitutes acceptance of the updated policy.<br/><br/>
-                      If you have any queries relating to the processing/ usage of information provided by you or regarding Sruvo's Privacy Policy, you may email the Data Protection Officer (DPO) at <a className="text-primary font-semibold" href="mailto:thesruvo@gmail.com">thesruvo@gmail.com</a>.
+                      If you have any queries relating to the processing/ usage of information provided by you or regarding Sruvo's Privacy Policy, you may email the Data Protection Officer (DPO) at <a className="text-primary font-semibold" href="mailto:noreply.sruvo@gmail.com">noreply.sruvo@gmail.com</a>.
                     </p>
                   </div>
                 </div>

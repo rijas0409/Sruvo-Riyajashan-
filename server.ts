@@ -270,10 +270,10 @@ app.post("/api/send-welcome-email", async (req, res) => {
         // 1. Send notification to admin (thesruvo@gmail.com)
         transporter.sendMail({
           from: `"${name}" <${user}>`,
-          to: email, // This shows the user's email in the "To" field of the email client
+          to: "thesruvo@gmail.com", // Dedicated admin inbox
           envelope: {
             from: user,
-            to: [user] // This ensures the email is actually delivered to the admin
+            to: ["thesruvo@gmail.com"] 
           },
           replyTo: email,
           subject: `[SUPPORT-REQUEST] New Contact Form: ${subject}`,

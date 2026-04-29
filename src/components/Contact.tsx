@@ -95,7 +95,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-sm font-headline font-bold text-on-surface-variant uppercase tracking-widest mb-1">Email Us</p>
-                  <a className="text-lg font-semibold text-on-surface hover:text-primary transition-colors" href="mailto:thesruvo@gmail.com">thesruvo@gmail.com</a>
+                  <a className="text-lg font-semibold text-on-surface hover:text-primary transition-colors" href="mailto:noreply.sruvo@gmail.com">noreply.sruvo@gmail.com</a>
                 </div>
               </div>
             </div>
