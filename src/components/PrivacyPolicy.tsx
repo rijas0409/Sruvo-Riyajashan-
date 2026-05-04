@@ -47,7 +47,7 @@ export default function PrivacyPolicy() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="glass-card p-8 md:p-16 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.02)] border border-white/40"
+            className="glass-card p-6 md:p-16 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.02)] border border-white/40"
           >
             <div className="flex items-center gap-4 mb-12 pb-8 border-b border-surface-variant/30">
               <div className="w-12 h-12 rounded-xl bg-primary-container/20 flex items-center justify-center">
@@ -60,26 +60,24 @@ export default function PrivacyPolicy() {
             </div>
 
             <div className="space-y-16">
-              {/* Section 1: Introduction */}
               <section className="group">
-                <div className="flex items-start gap-6">
+                <div className="flex flex-col sm:flex-row items-start gap-4 md:gap-6">
                   <span className="text-3xl font-headline font-extrabold text-primary/20 group-hover:text-primary transition-colors duration-500">01</span>
-                  <div className="space-y-6">
+                  <div className="space-y-6 flex-1">
                     <h2 className="text-2xl font-headline font-bold text-on-surface">Introduction</h2>
-                    <p className="text-on-surface-variant leading-relaxed text-lg">
+                    <p className="text-on-surface-variant leading-relaxed text-lg text-pretty">
                       Sruvo (“we”, “our”, or “us”) operates a technology platform that enables pet discovery, veterinary services, pet commerce, and digital pet health management. We are committed to protecting personal data in accordance with applicable laws, including the Digital Personal Data Protection Act, 2023 (India). This Privacy Policy explains how we collect, use, process, and safeguard your information when you access or use our platform.
                     </p>
                   </div>
                 </div>
               </section>
 
-              {/* Section 2: Information We Collect */}
               <section className="group">
-                <div className="flex items-start gap-6">
+                <div className="flex flex-col sm:flex-row items-start gap-4 md:gap-6">
                   <span className="text-3xl font-headline font-extrabold text-primary/20 group-hover:text-primary transition-colors duration-500">02</span>
-                  <div className="space-y-6">
+                  <div className="space-y-6 flex-1">
                     <h2 className="text-2xl font-headline font-bold text-on-surface">Information We Collect</h2>
-                    <p className="text-on-surface-variant leading-relaxed text-lg">
+                    <p className="text-on-surface-variant leading-relaxed text-lg text-pretty">
                       We collect information necessary to provide and improve our services:
                     </p>
                     <div className="grid md:grid-cols-2 gap-4">
@@ -118,11 +116,11 @@ export default function PrivacyPolicy() {
 
               {/* Section 3: Purpose of Processing */}
               <section className="group">
-                <div className="flex items-start gap-6">
+                <div className="flex flex-col sm:flex-row items-start gap-4 md:gap-6">
                   <span className="text-3xl font-headline font-extrabold text-primary/20 group-hover:text-primary transition-colors duration-500">03</span>
-                  <div className="space-y-6">
+                  <div className="space-y-6 flex-1">
                     <h2 className="text-2xl font-headline font-bold text-on-surface">Purpose of Processing</h2>
-                    <p className="text-on-surface-variant leading-relaxed text-lg">
+                    <p className="text-on-surface-variant leading-relaxed text-lg text-pretty">
                       We process data for the following purposes:
                     </p>
                     <ul className="space-y-4">
@@ -161,11 +159,11 @@ export default function PrivacyPolicy() {
 
               {/* Section 4: AI-Based Processing */}
               <section className="group">
-                <div className="flex items-start gap-6">
+                <div className="flex flex-col sm:flex-row items-start gap-4 md:gap-6">
                   <span className="text-3xl font-headline font-extrabold text-primary/20 group-hover:text-primary transition-colors duration-500">04</span>
-                  <div className="space-y-6">
+                  <div className="space-y-6 flex-1">
                     <h2 className="text-2xl font-headline font-bold text-on-surface">AI-Based Processing</h2>
-                    <p className="text-on-surface-variant leading-relaxed text-lg">
+                    <p className="text-on-surface-variant leading-relaxed text-lg text-pretty">
                       Sruvo may use pet and user data to generate AI-based insights, including:
                     </p>
                     <ul className="list-disc pl-6 space-y-2 text-on-surface-variant">
@@ -184,12 +182,12 @@ export default function PrivacyPolicy() {
 
               {/* Section 5: Data Sharing */}
               <section className="group">
-                <div className="flex items-start gap-6">
+                <div className="flex flex-col sm:flex-row items-start gap-4 md:gap-6">
                   <span className="text-3xl font-headline font-extrabold text-primary/20 group-hover:text-primary transition-colors duration-500">05</span>
-                  <div className="space-y-6">
+                  <div className="space-y-6 flex-1">
                     <h2 className="text-2xl font-headline font-bold text-on-surface">Data Sharing & Third-Party Services</h2>
-                    <p className="text-on-surface-variant leading-relaxed text-lg">We do not sell personal data.</p>
-                    <p className="text-on-surface-variant leading-relaxed text-lg">We may share user data with trusted third parties strictly for the purpose of providing and improving our services, including:</p>
+                    <p className="text-on-surface-variant leading-relaxed text-lg text-pretty">We do not sell personal data.</p>
+                    <p className="text-on-surface-variant leading-relaxed text-lg text-pretty">We may share user data with trusted third parties strictly for the purpose of providing and improving our services, including:</p>
                     <ul className="space-y-4">
                       <li className="flex items-start gap-4 text-on-surface-variant">
                         <div className="w-2 h-2 rounded-full bg-secondary mt-2.5 flex-shrink-0"></div>
@@ -217,11 +215,11 @@ export default function PrivacyPolicy() {
 
               {/* Section 6: Data Security */}
               <section className="group">
-                <div className="flex items-start gap-6">
+                <div className="flex flex-col sm:flex-row items-start gap-4 md:gap-6">
                   <span className="text-3xl font-headline font-extrabold text-primary/20 group-hover:text-primary transition-colors duration-500">06</span>
-                  <div className="space-y-6">
+                  <div className="space-y-6 flex-1">
                     <h2 className="text-2xl font-headline font-bold text-on-surface">Data Security</h2>
-                    <p className="text-on-surface-variant leading-relaxed text-lg">
+                    <p className="text-on-surface-variant leading-relaxed text-lg text-pretty">
                       We implement reasonable technical and organizational safeguards to protect data from unauthorized access, loss, or misuse. Users are responsible for maintaining the confidentiality of their account credentials.
                     </p>
                   </div>
@@ -230,11 +228,11 @@ export default function PrivacyPolicy() {
 
               {/* Section 7: User Rights */}
               <section className="group">
-                <div className="flex items-start gap-6">
+                <div className="flex flex-col sm:flex-row items-start gap-4 md:gap-6">
                   <span className="text-3xl font-headline font-extrabold text-primary/20 group-hover:text-primary transition-colors duration-500">07</span>
-                  <div className="space-y-6">
+                  <div className="space-y-6 flex-1">
                     <h2 className="text-2xl font-headline font-bold text-on-surface">User Rights</h2>
-                    <p className="text-on-surface-variant leading-relaxed text-lg">
+                    <p className="text-on-surface-variant leading-relaxed text-lg text-pretty">
                       Subject to applicable law, users may:
                     </p>
                     <ul className="list-disc pl-6 space-y-2 text-on-surface-variant">
@@ -242,18 +240,18 @@ export default function PrivacyPolicy() {
                       <li>Request deletion of their data</li>
                       <li>Withdraw consent where applicable</li>
                     </ul>
-                    <p className="text-on-surface-variant">Requests can be made via: <a className="text-primary font-semibold" href="mailto:noreply.sruvo@gmail.com">noreply.sruvo@gmail.com</a></p>
+                    <p className="text-on-surface-variant text-pretty">Requests can be made via: <a className="text-primary font-semibold" href="mailto:thesruvo@gmail.com">thesruvo@gmail.com</a></p>
                   </div>
                 </div>
               </section>
 
               {/* Section 8: Cookies, Tracking & Children’s Privacy */}
               <section className="group">
-                <div className="flex items-start gap-6">
+                <div className="flex flex-col sm:flex-row items-start gap-4 md:gap-6">
                   <span className="text-3xl font-headline font-extrabold text-primary/20 group-hover:text-primary transition-colors duration-500">08</span>
-                  <div className="space-y-6">
+                  <div className="space-y-6 flex-1">
                     <h2 className="text-2xl font-headline font-bold text-on-surface">Cookies, Tracking & Children’s Privacy</h2>
-                    <p className="text-on-surface-variant leading-relaxed text-lg">
+                    <p className="text-on-surface-variant leading-relaxed text-lg text-pretty">
                       We use cookies and similar tracking technologies to enhance platform functionality, analyze user behavior, and personalize user experience. These technologies help us understand usage patterns, improve performance, and deliver relevant features.<br/><br/>
                       Users may control or disable cookies through their browser or device settings. However, disabling certain cookies may affect the functionality of the platform.<br/><br/>
                       Our platform is not intended for individuals under the age of 18. We do not knowingly collect personal data from children. If we become aware that data has been collected from a minor without appropriate consent, we will take reasonable steps to delete such information.
@@ -264,13 +262,13 @@ export default function PrivacyPolicy() {
 
               {/* Section 9: Policy Updates */}
               <section className="group">
-                <div className="flex items-start gap-6">
+                <div className="flex flex-col sm:flex-row items-start gap-4 md:gap-6">
                   <span className="text-3xl font-headline font-extrabold text-primary/20 group-hover:text-primary transition-colors duration-500">09</span>
-                  <div className="space-y-6">
+                  <div className="space-y-6 flex-1">
                     <h2 className="text-2xl font-headline font-bold text-on-surface">Policy Updates & Contact</h2>
-                    <p className="text-on-surface-variant leading-relaxed text-lg">
+                    <p className="text-on-surface-variant leading-relaxed text-lg text-pretty">
                       We may update this policy periodically. Continued use of the platform constitutes acceptance of the updated policy.<br/><br/>
-                      If you have any queries relating to the processing/ usage of information provided by you or regarding Sruvo's Privacy Policy, you may email the Data Protection Officer (DPO) at <a className="text-primary font-semibold" href="mailto:noreply.sruvo@gmail.com">noreply.sruvo@gmail.com</a>.
+                      If you have any queries relating to the processing/ usage of information provided by you or regarding Sruvo's Privacy Policy, you may email the Data Protection Officer (DPO) at <a className="text-primary font-semibold" href="mailto:thesruvo@gmail.com">thesruvo@gmail.com</a>.
                     </p>
                   </div>
                 </div>
