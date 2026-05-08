@@ -25,6 +25,46 @@ import BottomLayout from "./components/BottomLayout";
 import AnnouncementBanner from "./components/AnnouncementBanner";
 import { analytics } from "./lib/analytics";
 
+function SecurityManager({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+      return false;
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S
+      if (
+        e.keyCode === 123 || // F12
+        (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I/J/C
+        (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83)) // Ctrl+U or Ctrl+S
+      ) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    const handleDragStart = (e: DragEvent) => {
+      if (e.target instanceof HTMLImageElement) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    window.addEventListener("contextmenu", handleContextMenu);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("dragstart", handleDragStart);
+
+    return () => {
+      window.removeEventListener("contextmenu", handleContextMenu);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("dragstart", handleDragStart);
+    };
+  }, []);
+
+  return <>{children}</>;
+}
+
 function PageLoader() {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white/50 backdrop-blur-sm z-50">
@@ -98,7 +138,9 @@ function AppContent() {
 export default function App() {
   return (
     <Router>
-      <AppContent />
+      <SecurityManager>
+        <AppContent />
+      </SecurityManager>
     </Router>
   );
 }
